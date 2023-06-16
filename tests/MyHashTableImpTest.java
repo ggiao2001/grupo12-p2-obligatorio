@@ -1,4 +1,4 @@
-import uy.edu.um.prog2.adt.Entities.MyHashTableImp;
+import uy.edu.um.prog2.adt.TADs.MyHashTableImp;
 import uy.edu.um.prog2.adt.Exceptions.ElementNotFoundException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import org.junit.jupiter.api.Test;

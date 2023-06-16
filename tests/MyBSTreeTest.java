@@ -1,7 +1,7 @@
-import uy.edu.um.prog2.adt.Entities.MyBinarySearchTreeImp;
+import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
-import uy.edu.um.prog2.adt.Entities.NodeBST;
+import uy.edu.um.prog2.adt.TADs.NodeBST;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

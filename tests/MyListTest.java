@@ -1,5 +1,5 @@
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
-import uy.edu.um.prog2.adt.Entities.MyLinkedListImp;
+import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

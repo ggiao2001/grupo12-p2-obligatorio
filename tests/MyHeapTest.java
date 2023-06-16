@@ -1,4 +1,4 @@
-import uy.edu.um.prog2.adt.Entities.MyHeapImp;
+import uy.edu.um.prog2.adt.TADs.MyHeapImp;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import org.junit.Assert;

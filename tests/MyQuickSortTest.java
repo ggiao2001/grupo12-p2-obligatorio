@@ -1,4 +1,4 @@
-import uy.edu.um.prog2.adt.Entities.QuickSort;
+import uy.edu.um.prog2.adt.TADs.QuickSort;
 import org.junit.Assert;
         import org.junit.Test;
 

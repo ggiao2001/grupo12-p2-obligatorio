@@ -1,5 +1,5 @@
-import uy.edu.um.prog2.adt.Entities.MyHashLinkedListImp;
-import uy.edu.um.prog2.adt.Entities.NodeHash;
+import uy.edu.um.prog2.adt.TADs.MyHashLinkedListImp;
+import uy.edu.um.prog2.adt.TADs.NodeHash;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,5 @@
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
-import uy.edu.um.prog2.adt.Entities.MyQueueImp;
+import uy.edu.um.prog2.adt.TADs.MyQueueImp;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
