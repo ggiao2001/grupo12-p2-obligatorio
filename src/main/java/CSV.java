@@ -18,9 +18,9 @@ public class CSV {
     private static final String driversFile = "src/main/resources/drivers.txt";
     private static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
     private static final String csvRaw = "src/main/resources/f1_dataset.csv";
-    private static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
-    private static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
-    private static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
+    public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
+    public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
+    public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:ss");
 
@@ -63,6 +63,7 @@ public class CSV {
                 Boolean isRetweet = parseBoolean(record.get("is_retweet"));
                 Tweet tweet = new Tweet(id,date,text,source,isRetweet);
                 user.getTweets().add(tweet);
+                tweetLinkedList.add(tweet);
 
                 // hago un array de los hashtags del tweet
                 String hashTags = record.get("hashtags");
