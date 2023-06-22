@@ -51,7 +51,7 @@ public class CSV {
 
             // defino ids para user y hashtag que se generan automatico
             long userId = 1L;
-            long hashTagId = 1L;
+            Long hashTagId = 1L;
 
             for (CSVRecord record : records) {
 

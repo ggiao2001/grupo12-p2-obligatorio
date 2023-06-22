@@ -3,6 +3,8 @@ import java.util.Scanner;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
+import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
+import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 import uy.edu.um.prog2.adt.TADs.MyQueueImp;
 
@@ -15,7 +17,7 @@ public class FrontEnd {
         scanner = new Scanner(System.in);
     }
 
-    public void Menu() {
+    public void Menu() throws EmptyTreeException, FullHeapException {
         int option;
         do {
             System.out.println("------ Menu ------");
@@ -42,7 +44,7 @@ public class FrontEnd {
         } while (option != 0);
     }
 
-    private void listarPilotosMencionadosMes() {
+    private void listarPilotosMencionadosMes() throws EmptyTreeException, FullHeapException {
         System.out.println("Ingrese el mes (número): ");
         int month = scanner.nextInt();
         System.out.println("Ingrese el año (número): ");
@@ -52,6 +54,7 @@ public class FrontEnd {
 
         // Display the results
         System.out.println("------ Pilotos más mencionados en el mes " + month + " y año " + year + "------");
+        int posicion = 1;
         while (pilotosMencionados != null && pilotosMencionados.size() >= 0) {
             String piloto = null;
             try {
@@ -60,7 +63,8 @@ public class FrontEnd {
                 System.out.println("Problema con Queue de Pilotos Vacia");
                 break;
             }
-            System.out.println(piloto);
+            System.out.println(posicion+piloto);
+            posicion++;
         }
         System.out.println();
     }

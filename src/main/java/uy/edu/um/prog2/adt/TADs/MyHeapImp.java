@@ -7,7 +7,7 @@ import uy.edu.um.prog2.adt.Interfaces.MyHeap;
 public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
 
     //VARIABLES
-    private static final int CAPACIDAD_INICIAL = 10; //size máximo inicial
+    private static final int CAPACIDAD_INICIAL = 20; //size máximo inicial
     private T[] array;
     private int size; //size actual
     private boolean max; //True is es maximo, False si Minimo

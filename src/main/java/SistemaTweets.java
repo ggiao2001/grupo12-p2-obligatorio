@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.User;
+import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
+import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 
 public interface SistemaTweets {
@@ -9,7 +11,7 @@ public interface SistemaTweets {
      * @param month que se quiere buscar, year que se quiere buscar
      * @Return: Queue de los 10 Pilotos ACTIVOS más mencionados para un mes
      */
-    MyQueue<String> pilotosMasMencionadosMes(int month, int year);
+    MyQueue<String> pilotosMasMencionadosMes(int month, int year) throws FullHeapException, EmptyTreeException;
 
     /**
      * @Return: Queue de 15 Usuarios con más tweets con:
