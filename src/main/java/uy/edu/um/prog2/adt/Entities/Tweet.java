@@ -1,10 +1,9 @@
 package uy.edu.um.prog2.adt.Entities;
 
+import java.time.LocalDateTime;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 
-import java.time.LocalDateTime;
-
-public class Tweet<T> {
+public class Tweet {
     private long id;
     private LocalDateTime date;
     private String content;
@@ -12,7 +11,7 @@ public class Tweet<T> {
     private boolean isRetweet;
     private MyLinkedListImp<HashTag> hashTags;
 
-    public Tweet(long id, LocalDateTime date, String content, String source, boolean isRetweet) {
+    public Tweet(long id, LocalDateTime date, String content, String source, boolean isRetweet, MyLinkedListImp hashtags) {
         this.id = id;
         this.date = date;
         this.content = content;
@@ -21,13 +20,13 @@ public class Tweet<T> {
         this.hashTags = new MyLinkedListImp<>();
     }
 
+    public Tweet() {
+        this.hashTags = new MyLinkedListImp<>();
+    }
+
     public long getId() {
         return id;
     }
-
-//    public void setId(long id) {
-//        this.id = id;
-//    }
 
     public LocalDateTime getDate() {
         return date;
@@ -49,17 +48,9 @@ public class Tweet<T> {
         return source;
     }
 
-//    public void setSource(String source) {
-//        this.source = source;
-//    }
-
     public boolean isRetweet() {
         return isRetweet;
     }
-
-//    public void setRetweet(boolean retweet) {
-//        isRetweet = retweet;
-//    }
 
     public MyLinkedListImp<HashTag> getHashTags() {
         return hashTags;
@@ -67,5 +58,17 @@ public class Tweet<T> {
 
     public void setHashTags(MyLinkedListImp<HashTag> hashTags) {
         this.hashTags = hashTags;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setRetweet(boolean retweet) {
+        isRetweet = retweet;
     }
 }

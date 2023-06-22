@@ -24,13 +24,17 @@ public class User {
         this.tweets = new MyLinkedListImp<>();
     }
 
+    public User() {
+        this.tweets = new MyLinkedListImp<>();
+    }
+
     public long getId() {
         return id;
     }
 
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -110,5 +114,9 @@ public class User {
 
     public void setTweets(MyLinkedListImp<Tweet> tweets) {
         this.tweets = tweets;
+    }
+
+    public int tweetCount() {
+        return tweets.size();
     }
 }

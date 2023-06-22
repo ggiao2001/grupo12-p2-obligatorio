@@ -1,24 +1,28 @@
-import org.apache.commons.csv.*;
-import uy.edu.um.prog2.adt.Entities.HashTag;
-import uy.edu.um.prog2.adt.Entities.Tweet;
-import uy.edu.um.prog2.adt.Entities.User;
-import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Long.parseLong;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Double.parseDouble;
-import static java.lang.Long.parseLong;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+import uy.edu.um.prog2.adt.Entities.HashTag;
+import uy.edu.um.prog2.adt.Entities.Tweet;
+import uy.edu.um.prog2.adt.Entities.User;
+import uy.edu.um.prog2.adt.TADs.MyHashTableImp;
+import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 
 public class CSV {
 
     private static final String driversFile = "src/main/resources/drivers.txt";
-    private static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
-    private static final String csvRaw = "src/main/resources/f1_dataset.csv";
+    public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
+    public static final MyHashTableImp<String, User> userHashTable = new MyHashTableImp<>();
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
+    private static final String csvRaw = "src/main/resources/datasetSanti.csv";
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
     public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -35,9 +39,9 @@ public class CSV {
         }
     }
 
-    public static void getCsvInfo() throws IOException {
-        String[] HEADERS = {"id","user_name", "user_location", "user_description", "user_created", "user_followers", "user_friends", "user_favourites", "user_verified", "date", "text", "hashtags", "source", "is_retweet"};
-        try (Reader in = new FileReader("src/main/resources/datasetSanti.csv")) {
+    public static void getCsvInfo() {
+        String[] HEADERS = {"id", "user_name", "user_location", "user_description", "user_created", "user_followers", "user_friends", "user_favourites", "user_verified", "date", "text", "hashtags", "source", "is_retweet"};
+        try (Reader in = new FileReader(csvRaw)) {
             CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                     .setHeader(HEADERS)
                     .setSkipHeaderRecord(true)
@@ -51,20 +55,11 @@ public class CSV {
 
             for (CSVRecord record : records) {
 
-                // creo un objeto user de clase user
+                // obtengo el nombre del user
                 String userName = record.get("user_name");
-                User user = new User(userId,userName);
+                var userMatch = userHashTable.get(userName);
 
-                // creo el objeto de clase tweet
-                Long id = parseLong(record.get("id"));
-                LocalDateTime date = parseDateTime(record.get("date"));
-                String text = record.get("text");
-                String source = record.get("source");
-                Boolean isRetweet = parseBoolean(record.get("is_retweet"));
-                Tweet tweet = new Tweet(id,date,text,source,isRetweet);
-                user.getTweets().add(tweet);
-                tweetLinkedList.add(tweet);
-
+                Tweet tweet = new Tweet();
                 // hago un array de los hashtags del tweet
                 String hashTags = record.get("hashtags");
                 String[] hashTagSplited = hashTags.replace("[", "").replace("]", "").replaceAll("\\s", "").split(",");
@@ -79,22 +74,38 @@ public class CSV {
                     tweet.getHashTags().add(hashTag);
                 }
 
-                if (userLinkedList.contains(user)) {
-                    // si contiene al user revisar cual es el ultimo tweet y si es actualizar la info
-                    if (tweet.getDate().isAfter(user.getLastTweet())) {
-                        String userLocation = record.get("user_location");
-                        String userDescription = record.get("user_description");
-                        LocalDateTime userCreated = parseDateTime(record.get("user_created"));
-                        Double userFollowers = parseDouble(record.get("user_followers"));
-                        Double userFriends = parseDouble(record.get("user_friends"));
-                        Double userFavourites = parseDouble(record.get("user_favourites"));
+                // creo el objeto de clase tweet
+                tweet.setId(parseLong(record.get("id")));
+                LocalDateTime date = parseDateTime(record.get("date"));
+                tweet.setDate(date);
+                tweet.setContent(record.get("text"));
+                tweet.setSource(record.get("source"));
+                tweet.setRetweet(parseBoolean(record.get("is_retweet")));
+                
+                if (userMatch != null){
+                    userMatch.getTweets().add(tweet);
+                    //userMatch.incrementTweetCount(); opcional si no tenes un size en tu lista, creo que no tenes
+                    tweetLinkedList.add(tweet);
+                    if (date.isAfter(userMatch.getLastTweet())) {
+                        userMatch.setLastTweet(date);
+                        userMatch.setVerified(Boolean.parseBoolean(record.get("user_verified"))); // Actualizar el estado verificado si se encuentra un tweet más reciente
                     }
-                } else {
+
+                }else{
+                    User user = new User();
+                    user.setId(userId);
+                    user.setName(userName);
+                    user.setVerified(Boolean.parseBoolean(record.get("user_verified")));
+                    user.setLastTweet(date);
+                    user.getTweets().add(tweet);
+                    userHashTable.put(userName, user);
                     userLinkedList.add(user);
+                    tweetLinkedList.add(tweet);
                     userId++;
                 }
-
             }
+        } catch (IOException e) {
+            throw new RuntimeException("ERROR AL LEER EL CSV"); //Create una excepcion y ponele un mensaje
         }
     }
 
@@ -109,4 +120,6 @@ public class CSV {
             }
         }
     }
+
+
 }

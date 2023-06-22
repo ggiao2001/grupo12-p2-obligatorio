@@ -1,16 +1,15 @@
-import uy.edu.um.prog2.adt.Interfaces.MyList;
-import uy.edu.um.prog2.adt.Entities.*;
-import uy.edu.um.prog2.adt.Interfaces.MyQueue;
-
 import java.time.LocalDate;
+import uy.edu.um.prog2.adt.Entities.HashTag;
+import uy.edu.um.prog2.adt.Entities.User;
+import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 
 public interface SistemaTweets {
 
     /**
+     * @param month que se quiere buscar, year que se quiere buscar
      * @Return: Queue de los 10 Pilotos ACTIVOS más mencionados para un mes
-     * @param mes que se quiere buscar
      */
-    MyQueue<String> pilotosMasMencionadosMes(LocalDate mes);
+    MyQueue<String> pilotosMasMencionadosMes(int month, int year);
 
     /**
      * @Return: Queue de 15 Usuarios con más tweets con:

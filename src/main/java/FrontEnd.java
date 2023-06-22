@@ -1,10 +1,10 @@
+import java.time.LocalDate;
+import java.util.Scanner;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
-
-import java.time.LocalDate;
-import java.util.Scanner;
+import uy.edu.um.prog2.adt.TADs.MyQueueImp;
 
 public class FrontEnd {
     private static SistemaTweets sistemaTweets;
@@ -30,44 +30,29 @@ public class FrontEnd {
             option = scanner.nextInt();
 
             switch (option) {
-                case 1:
-                    listarPilotosMencionadosMes();
-                    break;
-                case 2:
-                    listarUsuariosMasTweets();
-                    break;
-                case 3:
-                    cantidadHashtagsDia();
-                    break;
-                case 4:
-                    hashtagMasUsadoDia();
-                    break;
-                case 5:
-                    listarCuentasMasFavoritos();
-                    break;
-                case 6:
-                    cantidadTweetsPalabra();
-                    break;
-                case 0:
-                    System.out.println("Saliendo del programa...");
-                    break;
-                default:
-                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-                    break;
+                case 1 -> listarPilotosMencionadosMes();
+                case 2 -> listarUsuariosMasTweets();
+                case 3 -> cantidadHashtagsDia();
+                case 4 -> hashtagMasUsadoDia();
+                case 5 -> listarCuentasMasFavoritos();
+                case 6 -> cantidadTweetsPalabra();
+                case 0 -> System.out.println("Saliendo del programa...");
+                default -> System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
             }
         } while (option != 0);
     }
 
     private void listarPilotosMencionadosMes() {
-        System.out.println("Ingrese el mes (número) y año (número) separados por un espacio: ");
+        System.out.println("Ingrese el mes (número): ");
         int month = scanner.nextInt();
+        System.out.println("Ingrese el año (número): ");
         int year = scanner.nextInt();
-        LocalDate mes = LocalDate.of(year, month, 1);
-        MyQueue<String> pilotosMencionados = sistemaTweets.pilotosMasMencionadosMes(mes);
+
+        MyQueueImp<String> pilotosMencionados = (MyQueueImp<String>) sistemaTweets.pilotosMasMencionadosMes(month, year);
 
         // Display the results
-        System.out.println("------ Pilotos más mencionados en el mes " + mes + " ------");
-        while (pilotosMencionados!= null && pilotosMencionados.size() >= 0) {
+        System.out.println("------ Pilotos más mencionados en el mes " + month + " y año " + year + "------");
+        while (pilotosMencionados != null && pilotosMencionados.size() >= 0) {
             String piloto = null;
             try {
                 piloto = pilotosMencionados.dequeue();
@@ -81,7 +66,7 @@ public class FrontEnd {
     }
 
     private void listarUsuariosMasTweets() {
-        MyQueue<User> usuariosMasTweets = sistemaTweets.usuariosMasTweets();
+        MyQueueImp<User> usuariosMasTweets = (MyQueueImp<User>) sistemaTweets.usuariosMasTweets();
 
         // Display the results
         System.out.println("------ Usuarios con más tweets ------");
@@ -123,7 +108,7 @@ public class FrontEnd {
         while (cuentasMasFavoritos!= null &&cuentasMasFavoritos.size() >=0) {
             User usuario = null;
             try {
-               usuario = cuentasMasFavoritos.dequeue();
+                usuario = cuentasMasFavoritos.dequeue();
             } catch (EmptyQueueException e) {
                 System.out.println("Problema con Queue de Cuentas Favoritos");
             }

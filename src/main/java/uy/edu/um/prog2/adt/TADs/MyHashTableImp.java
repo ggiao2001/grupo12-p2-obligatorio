@@ -11,7 +11,8 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
 
     //definicion del hash
     private int hash(K key) {
-        return (int)key % size;
+        int hashCode = key.hashCode();
+        return Math.abs(hashCode) % size;
     }
 
     //array con linkedList
@@ -21,6 +22,10 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
         for (int i=0; i<size; i++){
             table[i] = new MyHashLinkedListImp<>();
         }
+    }
+
+     public MyHashTableImp(){
+        this(16);
     }
 
     //metodos
@@ -58,12 +63,12 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
     }
 
     @Override
-    public V get(K key) throws ElementNotFoundException {
+    public V get(K key){
         int index = hash(key);
         MyHashLinkedListImp<K,V> bucket = table[index];
         if (bucket.getKey(key) != null) {
             return bucket.getKey(key).getValue();
         }
-        throw new ElementNotFoundException();
+        return null; // retorna null si no lo encuentra
     }
 }
