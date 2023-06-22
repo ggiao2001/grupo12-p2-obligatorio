@@ -11,6 +11,7 @@ public class SistemaTweetsImp implements SistemaTweets{
     MyList<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet>tweets = CSV.tweetLinkedList;
     MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
+    MyLinkedListImp<String> pilotos = CSV.driversLinkedList;
 
     @Override
     public MyQueue<String> pilotosMasMencionadosMes(LocalDate mes) {

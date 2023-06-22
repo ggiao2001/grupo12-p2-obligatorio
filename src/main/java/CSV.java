@@ -16,7 +16,7 @@ import static java.lang.Long.parseLong;
 public class CSV {
 
     private static final String driversFile = "src/main/resources/drivers.txt";
-    private static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
+    public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
     private static final String csvRaw = "src/main/resources/f1_dataset.csv";
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
