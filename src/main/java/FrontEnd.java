@@ -5,6 +5,7 @@ import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
+import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 import uy.edu.um.prog2.adt.TADs.MyQueueImp;
 
@@ -17,7 +18,7 @@ public class FrontEnd {
         scanner = new Scanner(System.in);
     }
 
-    public void Menu() throws EmptyTreeException, FullHeapException {
+    public void Menu() throws EmptyTreeException, FullHeapException, OutOfBoundsException {
         int option;
         do {
             System.out.println("------ Menu ------");
@@ -69,7 +70,7 @@ public class FrontEnd {
         System.out.println();
     }
 
-    private void listarUsuariosMasTweets() {
+    private void listarUsuariosMasTweets() throws OutOfBoundsException {
         MyQueueImp<User> usuariosMasTweets = (MyQueueImp<User>) sistemaTweets.usuariosMasTweets();
 
         // Display the results
@@ -104,7 +105,7 @@ public class FrontEnd {
         System.out.println();
     }
 
-    private void listarCuentasMasFavoritos() {
+    private void listarCuentasMasFavoritos() throws OutOfBoundsException {
         MyQueue<User> cuentasMasFavoritos = sistemaTweets.usuariosMasFavoritos();
 
         // Display the results

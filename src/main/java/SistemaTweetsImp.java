@@ -4,6 +4,7 @@ import uy.edu.um.prog2.adt.Entities.Tweet;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
+import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyList;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 import uy.edu.um.prog2.adt.TADs.*;
@@ -55,9 +56,31 @@ public class SistemaTweetsImp implements SistemaTweets{
     //tweets en orden descendente. Se espera que esta operación sea de orden n en
     //notación Big O.
     @Override
-    public MyQueue<User> usuariosMasTweets() {
+    public MyQueueImp<User> usuariosMasTweets() throws OutOfBoundsException {
+        MyLinkedListImp<User> top15usuarios = new MyLinkedListImp<>();
+        MyQueueImp<User> top15queue = new MyQueueImp<>();
+        User userMin = new User();
+        for (int i = 0; i < usuarios.size(); i++) { //recorre todos los usuarios --> orden n
+            User u = usuarios.get(i);
+            boolean userInserted = false;
+            if (top15usuarios.size() < 15) {
+                top15usuarios.add(u);
+                userInserted = true;
+            } else {
+                for (int j = 0; j < top15usuarios.size(); j++) { //lista de size fijo --> orden 1
+                    if (userInserted = false && top15usuarios.get(j).tweetCount() < u.tweetCount()) {
+                        top15usuarios.addIndex(j,u);
+                        userMin = top15usuarios.get(15);
+                        top15usuarios.remove(userMin);
+                    }
 
-        return null;
+                }
+            }
+        }
+        for (int i = 0; i < 15; i++) {
+            top15queue.enqueue(top15usuarios.get(i));
+        }
+        return top15queue;
     }
 
     //Cantidad de hashtags distintos para un día dado. El día será ingresado en el formato
@@ -110,9 +133,30 @@ public class SistemaTweetsImp implements SistemaTweets{
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
     //usuario, junto con la cantidad de favoritos.
     @Override
-    public MyQueue<User> usuariosMasFavoritos() {
-
-        return null;
+    public MyQueue<User> usuariosMasFavoritos() throws OutOfBoundsException {
+        MyLinkedListImp<User> top7usuarios = new MyLinkedListImp<>();
+        MyQueueImp<User> top7queue = new MyQueueImp<>();
+        User userMin = new User();
+        for (int i = 0; i < usuarios.size(); i++) { //recorre todos los usuarios --> orden n
+            User u = usuarios.get(i);
+            boolean userInserted = false;
+            if (top7usuarios.size() < 15) {
+                top7usuarios.add(u);
+                userInserted = true;
+            } else {
+                for (int j = 0; j < top7usuarios.size(); j++) { //lista de size fijo --> orden 1
+                    if (userInserted = false && top7usuarios.get(j).getFavourites() < u.getFavourites()) {
+                        top7usuarios.addIndex(j,u);
+                        userMin = top7usuarios.get(7);
+                        top7usuarios.remove(userMin);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < 7; i++) { //size fijo --> orden 1
+            top7queue.enqueue(top7usuarios.get(i));
+        }
+        return top7queue;
     }
 
     //Cantidad de tweets con una palabra o frase específicos (que será ingresado como

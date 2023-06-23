@@ -18,7 +18,6 @@ public class MyLinkedListImp <T> implements MyList<T> {
 ////////////////////////////////
     @Override
     public void add(T value) {
-
         Node<T> toAdd = new Node<>(value);
         if(this.first!= null){
             Node<T> aux = this.first;
@@ -32,8 +31,32 @@ public class MyLinkedListImp <T> implements MyList<T> {
             this.first = toAdd;
             this.last = toAdd;
         }
+    }
 
-
+    public void addIndex(int position, T value) throws OutOfBoundsException {
+        Node<T> toAdd = new Node<>(value);
+        int i = 0;
+        if (position >= 0 && position < this.size()) {
+            if (position == 0 && this.first != null) {
+                // quiero insertar al principio.
+                toAdd.setNext(first);
+                first = toAdd;
+            } else if (this.first != null) {
+                // busca insertar en otro con position > 0.
+                Node<T> aux = first.getNext();
+                Node<T> auxPrev = first;
+                while (i < position) {
+                    //recorro la lista hasta llegar a la posicion que busco
+                    aux = aux.getNext();
+                    auxPrev = auxPrev.getNext();
+                    i++;
+                }
+                auxPrev.setNext(toAdd);
+                toAdd.setNext(aux);
+            }
+        } else {
+            throw new OutOfBoundsException();
+        }
     }
 
     @Override

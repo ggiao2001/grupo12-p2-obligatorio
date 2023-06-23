@@ -3,7 +3,9 @@ import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
+import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
+import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 
 public interface SistemaTweets {
 
@@ -16,7 +18,7 @@ public interface SistemaTweets {
     /**
      * @Return: Queue de 15 Usuarios con más tweets con:
     **/
-    MyQueue<User> usuariosMasTweets();
+    MyQueue<User> usuariosMasTweets() throws OutOfBoundsException;
 
     /**
      * @Return: Integer con la cantidad de Hashtags para un dia
@@ -35,7 +37,7 @@ public interface SistemaTweets {
     /**
      * @Return: Queue de 7 Usuarios con más favoritos con:
      **/
-    MyQueue<User> usuariosMasFavoritos();
+    MyQueue<User> usuariosMasFavoritos() throws OutOfBoundsException;
 
 
     /**
