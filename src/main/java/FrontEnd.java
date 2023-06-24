@@ -128,9 +128,19 @@ public class FrontEnd {
     private void hashtagMasUsadoDia() {
         System.out.println("Ingrese el día (YYYY-MM-DD): ");
         String dateString = scanner.next();
-        LocalDate dia = LocalDate.parse(dateString);
-        HashTag hashtagMasUsado = sistemaTweets.hashtagMasUsado(dia);
-        System.out.println("Hashtag más usado para el día " + dia + ": " + hashtagMasUsado);
+        LocalDate dia;
+        try {
+            dia = LocalDate.parse(dateString);
+            HashTag hashtagMasUsado = sistemaTweets.hashtagMasUsado(dia);
+            if(hashtagMasUsado != null){
+                System.out.println("Hashtag más usado para el día " + dia + " fue : " + hashtagMasUsado.getText());
+            }else{
+                System.out.println("No hubo hashtags usados ese dia, o el dia selecionado escapa el rango de la base de datos.");
+            }
+
+        }catch (DateTimeParseException e) {
+            System.out.println("Error: Formato de fecha incorrecto. Asegúrese de ingresar en el formato YYYY-MM-DD.");
+        }
         System.out.println();
     }
 

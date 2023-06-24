@@ -112,17 +112,16 @@ public class SistemaTweetsImp implements SistemaTweets{
     //YYYY-MM-DD.
     @Override
     public int cantidadHashtags(LocalDate dia) {
-        MyHashTableImp<Long, HashTag> hashtagsDia = new MyHashTableImp();
+        MyLinkedListImp<HashTag> hashTagsDia = new MyLinkedListImp<>();
         int contador = 0;
         for (int i = 0; i < tweets.size(); i++) {
             Tweet t = tweets.get(i);
             if (t.getDate().toLocalDate().equals(dia)) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
-                    if (!hashtagsDia.contains(h.getId())) {
-                        hashtagsDia.put(h.getId(),h);
+                    if (!hashTagsDia.contains(h)) {
+                        hashTagsDia.add(h);
                         contador++;
-                        System.out.println(h.getText());
                     }
                 }
             }
@@ -134,26 +133,33 @@ public class SistemaTweetsImp implements SistemaTweets{
     //en el formato YYYY-MM-DD.
     @Override
     public HashTag hashtagMasUsado(LocalDate dia) {
-        for (int i = 0; i < hashtags.size(); i++) {
-            hashtags.get(i).setUsosDia(0);
-        }
-        HashTag hTop = new HashTag();
+
+        MyLinkedListImp<HashTag> aReset = new MyLinkedListImp<>();
+        HashTag hTop = null;
         for (int i = 0; i < tweets.size(); i++) {
             Tweet t = tweets.get(i);
-            if (t.getDate().toLocalDate().equals(dia)) {
+            if (t.getDate().isAfter(dia.atStartOfDay()) && t.getDate().isBefore(dia.plusDays(1).atStartOfDay())) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
-                    if (h.getText() != "f1") {
+                    if (!h.getText().toLowerCase().equals("'f1'") && !h.getText().toLowerCase().equals("f1")) {
                         h.setUsosDia(h.getUsosDia()+1);
-                    }
-                    if (h.getUsosDia() > hTop.getUsosDia()) {
-                        hTop = h;
+                        aReset.add(h);
+                        if (hTop == null || h.getUsosDia() > hTop.getUsosDia()) {
+                            hTop = h;
+                        }
                     }
                 }
             }
         }
+        //Reseteo los contadores de los hashtags
+        for (int i = 0; i < aReset.size(); i++) {
+            aReset.get(i).setUsosDia(0);
+        }
+
         return hTop;
     }
+
+
 
 
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
