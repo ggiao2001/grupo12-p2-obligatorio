@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Piloto;
@@ -21,18 +22,29 @@ public class FrontEnd {
     }
 
     public void Menu() throws EmptyTreeException, FullHeapException, OutOfBoundsException {
-        int option;
+        int option =0;
+
         do {
-            System.out.println("------ Menu ------");
-            System.out.println("1. Listar los 10 pilotos activos más mencionados en un mes");
-            System.out.println("2. Listar los 15 usuarios con más tweets");
-            System.out.println("3. Cantidad de hashtags distintos para un día dado");
+            System.out.println("----------------------");
+            System.out.println("   Sistema de Tweets  ");
+            System.out.println("----------------------");
+            System.out.println("-------- Menu --------");
+            System.out.println("1. Listar los 10 pilotos activos más mencionados en un mes ");
+            System.out.println("2. Listar los 15 usuarios con más tweets ");
+            System.out.println("3. Cantidad de hashtags distintos para un día dado ");
             System.out.println("4. Hashtag más usado para un día dado");
-            System.out.println("5. Top 7 cuentas con más favoritos");
-            System.out.println("6. Cantidad de tweets con una palabra o frase específicos");
+            System.out.println("5. Top 7 cuentas con más favoritos ");
+            System.out.println("6. Cantidad de tweets con una palabra o frase específicos ");
             System.out.println("0. Salir");
             System.out.print("Ingrese una opción: ");
-            option = scanner.nextInt();
+
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Por favor, ingrese un valor numérico válido.");
+                this.Menu();
+            }
+
 
             switch (option) {
                 case 1 -> listarPilotosMencionadosMes();
@@ -44,6 +56,7 @@ public class FrontEnd {
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
             }
+
         } while (option != 0);
     }
 

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SistemaTweetsImp implements SistemaTweets{
+public class SistemaTweetsImp implements SistemaTweets {
     MyList<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet> tweets = CSV.tweetLinkedList;
     MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
@@ -34,10 +34,10 @@ public class SistemaTweetsImp implements SistemaTweets{
         MyLinkedListImp<Tweet> listaTweets = CSV.tweetLinkedList;
         LocalDate fecha1 = LocalDate.of(year, month, 1);
         LocalDate fecha2;
-        if(month < 12){
-            fecha2 = LocalDate.of(year, month+1, 1);
-        }else{
-            fecha2 = LocalDate.of(year+1, 1, 1);
+        if (month < 12) {
+            fecha2 = LocalDate.of(year, month + 1, 1);
+        } else {
+            fecha2 = LocalDate.of(year + 1, 1, 1);
         }
 
 
@@ -52,7 +52,7 @@ public class SistemaTweetsImp implements SistemaTweets{
             String regexPattern = "\\b(" + Pattern.quote(nombreP) + "|" + Pattern.quote(firstName) + "|" + Pattern.quote(lastName) + ")\\b";
             Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
 
-            int mention_count =0;
+            int mention_count = 0;
             for (int i = 0; i < listaTweets.size(); i++) { //recorrer todos los tweets --> orden n
                 Tweet t = listaTweets.get(i);
                 if (t.getDate().toLocalDate().isAfter(fecha1) && t.getDate().toLocalDate().isBefore(fecha2)) {
@@ -94,7 +94,7 @@ public class SistemaTweetsImp implements SistemaTweets{
             } else {
                 for (int j = 0; j < top15usuarios.size(); j++) { //lista de size fijo --> orden 1
                     if (userInserted = false && top15usuarios.get(j).tweetCount() < u.tweetCount()) {
-                        top15usuarios.addIndex(j,u);
+                        top15usuarios.addIndex(j, u);
                         userMin = top15usuarios.get(15);
                         top15usuarios.remove(userMin);
                     }
@@ -142,7 +142,7 @@ public class SistemaTweetsImp implements SistemaTweets{
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
                     if (!h.getText().toLowerCase().equals("'f1'") && !h.getText().toLowerCase().equals("f1")) {
-                        h.setUsosDia(h.getUsosDia()+1);
+                        h.setUsosDia(h.getUsosDia() + 1);
                         aReset.add(h);
                         if (hTop == null || h.getUsosDia() > hTop.getUsosDia()) {
                             hTop = h;
@@ -158,8 +158,6 @@ public class SistemaTweetsImp implements SistemaTweets{
 
         return hTop;
     }
-
-
 
 
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
@@ -178,7 +176,7 @@ public class SistemaTweetsImp implements SistemaTweets{
             } else {
                 for (int j = 0; j < top7usuarios.size(); j++) { //lista de size fijo --> orden 1
                     if (userInserted = false && top7usuarios.get(j).getFavourites() < u.getFavourites()) {
-                        top7usuarios.addIndex(j,u);
+                        top7usuarios.addIndex(j, u);
                         userMin = top7usuarios.get(7);
                         top7usuarios.remove(userMin);
                     }
@@ -195,6 +193,21 @@ public class SistemaTweetsImp implements SistemaTweets{
     //parámetro)
     @Override
     public int cantidadTweetsPalabra(String frase) {
-        return 0;
+
+        String regexPattern = "\\b" + Pattern.quote(frase) + "\\b";
+        Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
+
+        int mentionCount = 0;
+        for (int i = 0; i < tweets.size(); i++) {
+            Tweet t = tweets.get(i);
+            String tcontent = t.getContent();
+            Matcher matcher = pattern.matcher(tcontent);
+            while (matcher.find()) {
+                mentionCount++;
+            }
+
+        }
+        return mentionCount;
     }
+
 }
