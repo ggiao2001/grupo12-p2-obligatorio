@@ -1,6 +1,8 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import uy.edu.um.prog2.adt.Entities.HashTag;
+import uy.edu.um.prog2.adt.Entities.Piloto;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
@@ -51,22 +53,35 @@ public class FrontEnd {
         System.out.println("Ingrese el año (número): ");
         int year = scanner.nextInt();
 
-        MyQueueImp<String> pilotosMencionados = (MyQueueImp<String>) sistemaTweets.pilotosMasMencionadosMes(month, year);
+        MyQueue<Piloto> pilotosMencionados =  sistemaTweets.pilotosMasMencionadosMes(month, year);
 
         // Display the results
         System.out.println("------ Pilotos más mencionados en el mes " + month + " y año " + year + "------");
         int posicion = 1;
-        while (pilotosMencionados != null && pilotosMencionados.size() >= 0) {
-            String piloto = null;
+        boolean flag = true;
+        while (pilotosMencionados != null && pilotosMencionados.size() > 0) {
+            Piloto piloto = null;
             try {
-                piloto = pilotosMencionados.dequeue();
+               piloto = pilotosMencionados.dequeue();
             } catch (EmptyQueueException e) {
                 System.out.println("Problema con Queue de Pilotos Vacia");
                 break;
             }
-            System.out.println(posicion+piloto);
+
+            if(piloto.getMenciones()> 1){
+                flag = false;
+                System.out.println(posicion+" "+piloto.getNombre() + ", Mencionado: " + piloto.getMenciones() + " veces");
+            }else if(piloto.getMenciones() == 1){
+                flag = false;
+                System.out.println(posicion+" "+piloto.getNombre() + ", Mencionado: " + piloto.getMenciones() + " vez");
+            }else{
+                System.out.println("Ningun otro piloto fue mencionado en este mes");
+                break;
+            }
+
             posicion++;
         }
+        if(flag){System.out.println("Ningun piloto mencionado este mes");}
         System.out.println();
     }
 
@@ -75,14 +90,21 @@ public class FrontEnd {
 
         // Display the results
         System.out.println("------ Usuarios con más tweets ------");
-        while (usuariosMasTweets!= null && usuariosMasTweets.size()>=0) {
+        int posicion = 1;
+        while (usuariosMasTweets!= null && usuariosMasTweets.size()>0) {
             User usuario = null;
             try {
                 usuario = usuariosMasTweets.dequeue();
             } catch (EmptyQueueException e) {
                 System.out.println("Problema con Queue de Usuarios Vacia");
+                break;
             }
-            System.out.println(usuario);
+            if(usuario.getVerified()){
+                System.out.println(posicion+" "+usuario.getName() + ", con " + usuario.getTweets().size() + " tweets. " + " Verificado");
+            }else{
+                System.out.println(posicion+" "+usuario.getName() + ", con " + usuario.getTweets().size() + " tweets. " + " No verificado");
+            }
+            posicion++;
         }
         System.out.println();
     }
@@ -90,9 +112,16 @@ public class FrontEnd {
     private void cantidadHashtagsDia() {
         System.out.println("Ingrese el día (YYYY-MM-DD): ");
         String dateString = scanner.next();
-        LocalDate dia = LocalDate.parse(dateString);
-        int cantidadHashtags = sistemaTweets.cantidadHashtags(dia);
-        System.out.println("Cantidad de hashtags distintos para el día " + dia + ": " + cantidadHashtags);
+        LocalDate dia;
+        try {
+            dia = LocalDate.parse(dateString);
+            int cantidadHashtags = sistemaTweets.cantidadHashtags(dia);
+            System.out.println("Cantidad de hashtags distintos para el día " + dia + ": " + cantidadHashtags);
+
+        } catch (DateTimeParseException e) {
+            System.out.println("Error: Formato de fecha incorrecto. Asegúrese de ingresar en el formato YYYY-MM-DD.");
+        }
+
         System.out.println();
     }
 

@@ -66,7 +66,7 @@ public class CSV {
                 for (int i = 0; i < hashTagSplited.length; i++) {
                     HashTag hashTag = new HashTag(hashTagId, hashTagSplited[i]);
                     // si no existia lo agrego a la linkedList de hashTags
-                    if (hashTagLinkedList.contains(hashTag) == false) {
+                    if (!hashTagLinkedList.contains(hashTag) ) {
                         hashTagLinkedList.add(hashTag);
                         hashTagId++;
                     }

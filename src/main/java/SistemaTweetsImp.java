@@ -12,6 +12,9 @@ import uy.edu.um.prog2.adt.TADs.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SistemaTweetsImp implements SistemaTweets{
     MyList<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet> tweets = CSV.tweetLinkedList;
@@ -24,29 +27,51 @@ public class SistemaTweetsImp implements SistemaTweets{
     //ocurrencias para cada uno de manera ordenada. Se espera que esta operación sea
     //de orden n en notación Big O.
     @Override
-    public MyQueueImp<String> pilotosMasMencionadosMes(int month, int year) throws FullHeapException, EmptyTreeException {
+    public MyQueueImp<Piloto> pilotosMasMencionadosMes(int month, int year) throws FullHeapException, EmptyTreeException {
 
-        MyQueueImp<String> topPilotos = new MyQueueImp<>();
+        MyQueueImp<Piloto> topPilotos = new MyQueueImp<>();
         MyHeapImp<Piloto> heap = new MyHeapImp<Piloto>(true);
         MyLinkedListImp<Tweet> listaTweets = CSV.tweetLinkedList;
         LocalDate fecha1 = LocalDate.of(year, month, 1);
-        LocalDate fecha2 = LocalDate.of(year, month+1, 1);
+        LocalDate fecha2;
+        if(month < 12){
+            fecha2 = LocalDate.of(year, month+1, 1);
+        }else{
+            fecha2 = LocalDate.of(year+1, 1, 1);
+        }
+
 
         for (int j = 0; j < pilotos.size(); j++) { //cantidad de pilotos fija --> orden 1
             String nombreP = pilotos.get(j);
             Piloto p = new Piloto(nombreP);
+
+
+            String[] nameParts = nombreP.split(" "); // Split full name into first name and last name
+            String firstName = nameParts[0];
+            String lastName = nameParts[nameParts.length - 1];
+            String regexPattern = "\\b(" + Pattern.quote(nombreP) + "|" + Pattern.quote(firstName) + "|" + Pattern.quote(lastName) + ")\\b";
+            Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
+
+            int mention_count =0;
             for (int i = 0; i < listaTweets.size(); i++) { //recorrer todos los tweets --> orden n
                 Tweet t = listaTweets.get(i);
-                if (t.getDate().toLocalDate().compareTo(fecha1) >= 0 && t.getDate().toLocalDate().compareTo(fecha2) < 0) {
-                    if (t.getContent().contains(nombreP)) {
-                        p.setMenciones(p.getMenciones()+1);
+                if (t.getDate().toLocalDate().isAfter(fecha1) && t.getDate().toLocalDate().isBefore(fecha2)) {
+                    String tcontent = t.getContent();
+                    Matcher matcher = pattern.matcher(tcontent);
+                    while (matcher.find()) {
+                        mention_count++;
                     }
+
+                    //if (tcontent.contains(nombreP)) {
+                    //    mention_count++;
+                    //}
                 }
             }
+            p.setMenciones(mention_count);
             heap.agregar(p);
         }
         for (int i = 0; i < 10; i++) {
-            topPilotos.enqueue(heap.obtenerYEliminar().getNombre());
+            topPilotos.enqueue(heap.obtenerYEliminar());
         }
         return topPilotos;
     }
@@ -94,9 +119,10 @@ public class SistemaTweetsImp implements SistemaTweets{
             if (t.getDate().toLocalDate().equals(dia)) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
-                    if (hashtagsDia.contains(h.getId()) == false) {
+                    if (!hashtagsDia.contains(h.getId())) {
                         hashtagsDia.put(h.getId(),h);
                         contador++;
+                        System.out.println(h.getText());
                     }
                 }
             }

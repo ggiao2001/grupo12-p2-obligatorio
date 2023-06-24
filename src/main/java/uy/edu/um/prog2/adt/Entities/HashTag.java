@@ -1,5 +1,7 @@
 package uy.edu.um.prog2.adt.Entities;
 
+import java.util.Objects;
+
 public class HashTag {
     private Long id;
     private String text;
@@ -11,6 +13,8 @@ public class HashTag {
 
     public HashTag(long id, String text) {
         this.id = id;
+        text = text.trim();
+        text = text.toLowerCase();
         this.text = text;
         this.usosDia = 0;
     }
@@ -28,6 +32,13 @@ public class HashTag {
     }
 
     public void setText(String text) {
+        // saco espacios antes y despues
+        text = text.trim();
+
+        // transformo en lowercase
+        text = text.toLowerCase();
+
+        // Set el texto
         this.text = text;
     }
 
@@ -39,4 +50,16 @@ public class HashTag {
         this.usosDia = usosDia;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HashTag hashTag = (HashTag) o;
+        return text.equals(hashTag.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text);
+    }
 }
