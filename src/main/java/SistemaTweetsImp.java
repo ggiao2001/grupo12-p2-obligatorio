@@ -68,7 +68,9 @@ public class SistemaTweetsImp implements SistemaTweets {
                 }
             }
             p.setMenciones(mention_count);
-            heap.agregar(p);
+            if(p.getMenciones() >0 && heap.getTamaño() < 10) {
+                heap.agregar(p);
+            }
         }
         for (int i = 0; i < 10; i++) {
             topPilotos.enqueue(heap.obtenerYEliminar());

@@ -39,12 +39,13 @@ public class FrontEnd {
             System.out.print("Ingrese una opción: ");
 
             try {
-                option = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
+                option = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+            } catch (InputMismatchException e) {
                 System.out.println("Error: Por favor, ingrese un valor numérico válido.");
-                this.Menu();
+                scanner.nextLine(); // Consume the invalid input
+                continue; // Restart the loop
             }
-
 
             switch (option) {
                 case 1 -> listarPilotosMencionadosMes();
@@ -56,7 +57,6 @@ public class FrontEnd {
                 case 0 -> System.out.println("Saliendo del programa...");
                 default -> System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
             }
-
         } while (option != 0);
     }
 
