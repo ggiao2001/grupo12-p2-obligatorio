@@ -3,6 +3,8 @@ package uy.edu.um.prog2.adt.TADs;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyList;
 
+import java.util.Comparator;
+
 public class MyLinkedListImp <T> implements MyList<T> {
 
     private Node<T> first;
@@ -166,4 +168,42 @@ public class MyLinkedListImp <T> implements MyList<T> {
     public void setLast(Node<T> last) {
         this.last = last;
     }
+
+    public void quickSort(Comparator<T> comparator) {
+        quickSortRecursive(first, last, comparator);
+    }
+
+    private void quickSortRecursive(Node<T> start, Node<T> end, Comparator<T> comparator) {
+        if (start == null || end == null || start == end || start == end.getNext()) {
+            return; // Nothing to sort
+        }
+
+        Node<T> pivot = partition(start, end, comparator);
+        quickSortRecursive(start, pivot, comparator);
+        quickSortRecursive(pivot.getNext(), end, comparator);
+    }
+
+    private Node<T> partition(Node<T> start, Node<T> end, Comparator<T> comparator) {
+        Node<T> pivot = start;
+        Node<T> current = start;
+        T pivotValue = pivot.getValue();
+
+        while (current != end && current.getNext() != null) {
+            if (comparator.compare(current.getNext().getValue(), pivotValue) < 0) {
+                swapValues(current.getNext(), pivot.getNext());
+                pivot = pivot.getNext();
+            }
+            current = current.getNext();
+        }
+
+        swapValues(start, pivot);
+        return pivot;
+    }
+
+    private void swapValues(Node<T> node1, Node<T> node2) {
+        T temp = node1.getValue();
+        node1.setValue(node2.getValue());
+        node2.setValue(temp);
+    }
+
 }

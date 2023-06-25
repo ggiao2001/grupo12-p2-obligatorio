@@ -70,7 +70,7 @@ public class SistemaTweetsImpTest {
     public void testVelocidadMetodo2(){
         System.out.println("Test de Velocidad y Memoria - Metodo 2");
         try {
-            MyQueue<User> usuariosMasTweets = sistemaTweets.usuariosMasTweets();
+            sistemaTweets.usuariosMasTweets();
         } catch (OutOfBoundsException e) {
             fail();
         }
@@ -97,7 +97,7 @@ public class SistemaTweetsImpTest {
     public void testVelocidadMetodo5(){
         System.out.println("Test de Velocidad y Memoria - Metodo 5");
         try {
-            MyQueue<User> usuariosMasFavoritos = sistemaTweets.usuariosMasFavoritos();
+            sistemaTweets.usuariosMasFavoritos();
         } catch (OutOfBoundsException e) {
             fail();
         }
@@ -128,7 +128,7 @@ public class SistemaTweetsImpTest {
     public void testUsuariosMasTweets() {
 
         try {
-            MyQueue<User> usuariosMasTweets = sistemaTweets.usuariosMasTweets();
+            sistemaTweets.usuariosMasTweets();
             // Add assertions to test the result
         } catch (OutOfBoundsException e) {
             Assert.fail("Exception occurred: " + e.getMessage());
@@ -154,7 +154,7 @@ public class SistemaTweetsImpTest {
     public void testUsuariosMasFavoritos() {
 
         try {
-            MyQueue<User> usuariosMasFavoritos = sistemaTweets.usuariosMasFavoritos();
+            sistemaTweets.usuariosMasFavoritos();
             // Add assertions to test the result
         } catch (OutOfBoundsException e) {
             Assert.fail("Exception occurred: " + e.getMessage());

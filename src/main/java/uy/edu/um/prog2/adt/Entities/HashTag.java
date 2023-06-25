@@ -3,7 +3,7 @@ package uy.edu.um.prog2.adt.Entities;
 import java.util.Objects;
 
 public class HashTag {
-    private String id;
+    private long id;
     private String text;
     private int usosDia;
 
@@ -11,7 +11,7 @@ public class HashTag {
         usosDia = 0;
     }
 
-    public HashTag(String id, String text) {
+    public HashTag(long id, String text) {
         this.id = id;
         text = text.trim();
         text = text.toLowerCase();
@@ -19,11 +19,11 @@ public class HashTag {
         this.usosDia = 0;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

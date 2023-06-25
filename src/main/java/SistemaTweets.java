@@ -19,7 +19,7 @@ public interface SistemaTweets {
     /**
      * @Return: Queue de 15 Usuarios con más tweets con:
     **/
-    MyQueue<User> usuariosMasTweets() throws OutOfBoundsException;
+    void usuariosMasTweets() throws OutOfBoundsException;
 
     /**
      * @Return: Integer con la cantidad de Hashtags para un dia
@@ -38,7 +38,7 @@ public interface SistemaTweets {
     /**
      * @Return: Queue de 7 Usuarios con más favoritos con:
      **/
-    MyQueue<User> usuariosMasFavoritos() throws OutOfBoundsException;
+    void usuariosMasFavoritos() throws OutOfBoundsException;
 
 
     /**

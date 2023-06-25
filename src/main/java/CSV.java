@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import uy.edu.um.prog2.adt.Entities.HashTag;
@@ -15,14 +16,16 @@ import uy.edu.um.prog2.adt.Entities.Tweet;
 import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.TADs.MyHashTableImp;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
+import uy.edu.um.prog2.adt.TADs.hash.HashTable;
+import uy.edu.um.prog2.adt.TADs.hash.table.MyHashTable;
 
 public class CSV {
 
     private static final String driversFile = "src/main/resources/drivers.txt";
     public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
-    public static final MyHashTableImp<String, User> userHashTable = new MyHashTableImp<>();
+    public static final HashTable<String, User> userHashTable = new MyHashTable<>();
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
-    private static final String csvRaw = "src/main/resources/datasetSanti.csv";
+    private static final String csvRaw = "src/main/resources/f1_dataset_test.csv";
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
     public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -48,60 +51,68 @@ public class CSV {
                     .build();
 
             Iterable<CSVRecord> records = csvFormat.parse(in);
+            long userId = 1L;
+            long hashTagId = 1L;
 
             for (CSVRecord record : records) {
+                try {
+                    // obtengo el nombre del user
+                    String userName = record.get("user_name");
 
-                // obtengo el nombre del user
-                String userName = record.get("user_name");
-                var userMatch = userHashTable.get(userName);
+                    var userMatch = userHashTable.get(userName);
 
-                Tweet tweet = new Tweet();
-                // hago un array de los hashtags del tweet
-                String hashTags = record.get("hashtags");
-                String[] hashTagSplited = hashTags.replace("[", "").replace("]", "").replaceAll("\\s", "").split(",");
-                for (int i = 0; i < hashTagSplited.length; i++) {
-                    HashTag hashTag = new HashTag(hashTagSplited[i].toLowerCase(), hashTagSplited[i]);
-                    // si no existia lo agrego a la linkedList de hashTags
-                    if (!hashTagLinkedList.contains(hashTag) ) {
-                        hashTagLinkedList.add(hashTag);
-                    }
-                    // lo agrego a la linkedList de hashtags del tweet
-                    tweet.getHashTags().add(hashTag);
-                }
-
-                // creo el objeto de clase tweet
-                tweet.setId(parseLong(record.get("id")));
-                LocalDateTime date = parseDateTime(record.get("date"));
-                tweet.setDate(date);
-                tweet.setContent(record.get("text"));
-                tweet.setSource(record.get("source"));
-                tweet.setRetweet(parseBoolean(record.get("is_retweet")));
-                
-                if (userMatch != null){
-                    userMatch.getTweets().add(tweet);
-                    //userMatch.incrementTweetCount(); opcional si no tenes un size en tu lista, creo que no tenes
-                    tweetLinkedList.add(tweet);
-                    if (date.isAfter(userMatch.getLastTweet())) {
-                        userMatch.setLastTweet(date);
-                        userMatch.setVerified(Boolean.parseBoolean(record.get("user_verified"))); // Actualizar el estado verificado si se encuentra un tweet más reciente
+                    Tweet tweet = new Tweet();
+                    // hago un array de los hashtags del tweet
+                    String hashTags = record.get("hashtags");
+                    String[] hashTagSplited = hashTags.replace("[", "").replace("]", "").replaceAll("\\s", "").split(",");
+                    for (int i = 0; i < hashTagSplited.length; i++) {
+                        HashTag hashTag = new HashTag(hashTagId, hashTagSplited[i]);
+                        // si no existia lo agrego a la linkedList de hashTags
+                        if (!hashTagLinkedList.contains(hashTag)) {
+                            hashTagLinkedList.add(hashTag);
+                            hashTagId++;
+                        }
+                        // lo agrego a la linkedList de hashtags del tweet
+                        tweet.getHashTags().add(hashTag);
                     }
 
-                }else{
-                    User user = new User();
-                    user.setId(userName.toLowerCase());
-                    user.setName(userName);
-                    user.setVerified(Boolean.parseBoolean(record.get("user_verified")));
-                    user.setLastTweet(date);
-                    user.getTweets().add(tweet);
-                    user.setLocation(record.get("user_location"));
-                    user.setDescription(record.get("user_description"));
-                    user.setCreated(parseDateTime(record.get("user_created")));
-                    user.setFollowers(Double.parseDouble(record.get("user_followers")));
-                    user.setFriends(Double.parseDouble(record.get("user_friends")));
-                    user.setFavourites(Double.parseDouble(record.get("user_favourites")));
-                    userHashTable.put(userName, user);
-                    userLinkedList.add(user);
-                    tweetLinkedList.add(tweet);
+                    // creo el objeto de clase tweet
+                    tweet.setId(parseLong(record.get("id")));
+                    LocalDateTime date = parseDateTime(record.get("date"));
+                    tweet.setDate(date);
+                    tweet.setContent(record.get("text"));
+                    tweet.setSource(record.get("source"));
+                    tweet.setRetweet(parseBoolean(record.get("is_retweet")));
+
+                    if (userMatch != null) {
+                        userMatch.getTweets().add(tweet);
+                        //userMatch.incrementTweetCount(); opcional si no tenes un size en tu lista, creo que no tenes
+                        tweetLinkedList.add(tweet);
+                        if (date.isAfter(userMatch.getLastTweet())) {
+                            userMatch.setLastTweet(date);
+                            userMatch.setVerified(Boolean.parseBoolean(record.get("user_verified"))); // Actualizar el estado verificado si se encuentra un tweet más reciente
+                        }
+
+                    } else {
+                        User user = new User();
+                        user.setId(userId);
+                        user.setName(userName);
+                        user.setVerified(Boolean.parseBoolean(record.get("user_verified")));
+                        user.setLastTweet(date);
+                        user.getTweets().add(tweet);
+                        user.setLocation(record.get("user_location"));
+                        user.setDescription(record.get("user_description"));
+                        user.setCreated(parseDateTime(record.get("user_created")));
+                        user.setFollowers(Double.parseDouble(record.get("user_followers")));
+                        user.setFriends(Double.parseDouble(record.get("user_friends")));
+                        user.setFavourites(Double.parseDouble(record.get("user_favourites")));
+                        userHashTable.put(userName, user);
+                        userLinkedList.add(user);
+                        tweetLinkedList.add(tweet);
+                        userId++;
+                    }
+                } catch (Exception ignored) {
+
                 }
             }
         } catch (IOException e) {

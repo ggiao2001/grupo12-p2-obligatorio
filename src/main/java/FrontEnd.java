@@ -61,10 +61,10 @@ public class FrontEnd {
     }
 
     private void listarPilotosMencionadosMes() throws EmptyTreeException, FullHeapException {
-        System.out.println("Ingrese el mes (número): ");
-        int month = scanner.nextInt();
         System.out.println("Ingrese el año (número): ");
         int year = scanner.nextInt();
+        System.out.println("Ingrese el mes (número): ");
+        int month = scanner.nextInt();
 
         MyQueue<Piloto> pilotosMencionados =  sistemaTweets.pilotosMasMencionadosMes(month, year);
 
@@ -83,10 +83,10 @@ public class FrontEnd {
 
             if(piloto.getMenciones()> 1){
                 flag = false;
-                System.out.println(posicion+" "+piloto.getNombre() + ", Mencionado: " + piloto.getMenciones() + " veces");
+                System.out.println(posicion+" "+piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " veces");
             }else if(piloto.getMenciones() == 1){
                 flag = false;
-                System.out.println(posicion+" "+piloto.getNombre() + ", Mencionado: " + piloto.getMenciones() + " vez");
+                System.out.println(posicion+" "+piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " vez");
             }else{
                 System.out.println("Ningun otro piloto fue mencionado en este mes");
                 break;
@@ -99,27 +99,9 @@ public class FrontEnd {
     }
 
     private void listarUsuariosMasTweets() throws OutOfBoundsException {
-        MyQueueImp<User> usuariosMasTweets = (MyQueueImp<User>) sistemaTweets.usuariosMasTweets();
-
         // Display the results
         System.out.println("------ Usuarios con más tweets ------");
-        int posicion = 1;
-        while (usuariosMasTweets!= null && usuariosMasTweets.size()>0) {
-            User usuario = null;
-            try {
-                usuario = usuariosMasTweets.dequeue();
-            } catch (EmptyQueueException e) {
-                System.out.println("Problema con Queue de Usuarios Vacia");
-                break;
-            }
-            if(usuario.getVerified()){
-                System.out.println(posicion+" "+usuario.getName() + ", con " + usuario.getTweets().size() + " tweets. " + " Verificado");
-            }else{
-                System.out.println(posicion+" "+usuario.getName() + ", con " + usuario.getTweets().size() + " tweets. " + " No verificado");
-            }
-            posicion++;
-        }
-        System.out.println();
+        sistemaTweets.usuariosMasTweets();
     }
 
     private void cantidadHashtagsDia() {
@@ -158,20 +140,7 @@ public class FrontEnd {
     }
 
     private void listarCuentasMasFavoritos() throws OutOfBoundsException {
-        MyQueue<User> cuentasMasFavoritos = sistemaTweets.usuariosMasFavoritos();
-
-        // Display the results
-        System.out.println("------ Cuentas con más favoritos ------");
-        while (cuentasMasFavoritos!= null &&cuentasMasFavoritos.size() >=0) {
-            User usuario = null;
-            try {
-                usuario = cuentasMasFavoritos.dequeue();
-            } catch (EmptyQueueException e) {
-                System.out.println("Problema con Queue de Cuentas Favoritos");
-            }
-            System.out.println(usuario);
-        }
-        System.out.println();
+        sistemaTweets.usuariosMasFavoritos();
     }
 
     private void cantidadTweetsPalabra() {

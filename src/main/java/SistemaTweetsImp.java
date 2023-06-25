@@ -11,11 +11,12 @@ import uy.edu.um.prog2.adt.TADs.*;
 
 import java.time.LocalDate;
 
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SistemaTweetsImp implements SistemaTweets {
-    MyList<User> usuarios = CSV.userLinkedList;
+    MyLinkedListImp<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet> tweets = CSV.tweetLinkedList;
     MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
     MyLinkedListImp<String> pilotos = CSV.driversLinkedList;
@@ -29,7 +30,7 @@ public class SistemaTweetsImp implements SistemaTweets {
     public MyQueueImp<Piloto> pilotosMasMencionadosMes(int month, int year) throws FullHeapException, EmptyTreeException {
 
         MyQueueImp<Piloto> topPilotos = new MyQueueImp<>();
-        MyHeapImp<Piloto> heap = new MyHeapImp<Piloto>(true);
+        MyHeapImp<Piloto> heap = new MyHeapImp<>(true);
         MyLinkedListImp<Tweet> listaTweets = CSV.tweetLinkedList;
         LocalDate fecha1 = LocalDate.of(year, month, 1);
         LocalDate fecha2;
@@ -60,14 +61,10 @@ public class SistemaTweetsImp implements SistemaTweets {
                     while (matcher.find()) {
                         mention_count++;
                     }
-
-                    //if (tcontent.contains(nombreP)) {
-                    //    mention_count++;
-                    //}
                 }
             }
             p.setMenciones(mention_count);
-            if(p.getMenciones() >0 && heap.getSize() < 10) {
+            if (p.getMenciones() > 0 && heap.getSize() < 10) {
                 heap.agregar(p);
             }
         }
@@ -82,31 +79,26 @@ public class SistemaTweetsImp implements SistemaTweets {
     //tweets en orden descendente. Se espera que esta operación sea de orden n en
     //notación Big O.
     @Override
-    public MyQueueImp<User> usuariosMasTweets() throws OutOfBoundsException {
+    public void usuariosMasTweets() throws OutOfBoundsException {
         MyLinkedListImp<User> top15usuarios = new MyLinkedListImp<>();
-        MyQueueImp<User> top15queue = new MyQueueImp<>();
-        User userMin = new User();
         for (int i = 0; i < usuarios.size(); i++) { //recorre todos los usuarios --> orden n
             User u = usuarios.get(i);
-            boolean userInserted = false;
+            for (int j = 0; j < top15usuarios.size(); j++) { //lista de size fijo --> orden 1
+                if (top15usuarios.get(j).tweetCount() < u.tweetCount()) {
+                    top15usuarios.addIndex(j, u);
+                    break;
+                }
+            }
             if (top15usuarios.size() < 15) {
                 top15usuarios.add(u);
-                userInserted = true;
-            } else {
-                for (int j = 0; j < top15usuarios.size(); j++) { //lista de size fijo --> orden 1
-                    if (userInserted = false && top15usuarios.get(j).tweetCount() < u.tweetCount()) {
-                        top15usuarios.addIndex(j, u);
-                        userMin = top15usuarios.get(15);
-                        top15usuarios.remove(userMin);
-                    }
-
-                }
+            }
+            if (top15usuarios.size() > 15) {
+                top15usuarios.remove(top15usuarios.getLast().getValue());
             }
         }
         for (int i = 0; i < 15; i++) {
-            top15queue.enqueue(top15usuarios.get(i));
+            System.out.println(i + 1 + ". " + top15usuarios.get(i).getName() + " - " + top15usuarios.get(i).tweetCount() + " tweets - verified: " + top15usuarios.get(i).getVerified());
         }
-        return top15queue;
     }
 
     //Cantidad de hashtags distintos para un día dado. El día será ingresado en el formato
@@ -164,49 +156,24 @@ public class SistemaTweetsImp implements SistemaTweets {
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
     //usuario, junto con la cantidad de favoritos.
     @Override
-    public MyQueue<User> usuariosMasFavoritos() throws OutOfBoundsException {
-        MyLinkedListImp<User> top7usuarios = new MyLinkedListImp<>();
-        MyQueueImp<User> top7queue = new MyQueueImp<>();
-        User userMin = new User();
-        for (int i = 0; i < usuarios.size(); i++) { //recorre todos los usuarios --> orden n
-            User u = usuarios.get(i);
-            boolean userInserted = false;
-            if (top7usuarios.size() < 7) {
-                top7usuarios.add(u);
-                userInserted = true;
-            } else {
-                for (int j = 0; j < top7usuarios.size(); j++) { //lista de size fijo --> orden 1
-                    if (userInserted = false && top7usuarios.get(j).getFavourites() < u.getFavourites()) {
-                        top7usuarios.addIndex(j, u);
-                        userMin = top7usuarios.get(7);
-                        top7usuarios.remove(userMin);
-                    }
-                }
-            }
+    public void usuariosMasFavoritos() throws OutOfBoundsException {
+        usuarios.quickSort((usuario1, usuario2) -> usuario2.getFavourites().compareTo(usuario1.getFavourites()));
+        for (int i = 0; i < 7; i++) {
+            System.out.println(usuarios.get(i).getName() + " " + usuarios.get(i).getFavourites());
         }
-        for (int i = 0; i < 7; i++) { //size fijo --> orden 1
-            top7queue.enqueue(top7usuarios.get(i));
-        }
-        return top7queue;
     }
 
     //Cantidad de tweets con una palabra o frase específicos (que será ingresado como
     //parámetro)
     @Override
     public int cantidadTweetsPalabra(String frase) {
-
-        String regexPattern = "\\b" + Pattern.quote(frase) + "\\b";
-        Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
-
         int mentionCount = 0;
         for (int i = 0; i < tweets.size(); i++) {
             Tweet t = tweets.get(i);
-            String tcontent = t.getContent();
-            Matcher matcher = pattern.matcher(tcontent);
-            while (matcher.find()) {
+            String tcontent = t.getContent().toLowerCase();
+            if (tcontent.contains(frase)) {
                 mentionCount++;
             }
-
         }
         return mentionCount;
     }

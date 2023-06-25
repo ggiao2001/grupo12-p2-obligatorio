@@ -85,5 +85,6 @@ public class MyListTest {
         list.add(30);
 
         list.addIndex(1,11);
+        list.addIndex(2,12);
     }
 }

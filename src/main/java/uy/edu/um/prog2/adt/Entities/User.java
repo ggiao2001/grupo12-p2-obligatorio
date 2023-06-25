@@ -5,7 +5,7 @@ import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 import java.time.LocalDateTime;
 
 public class User {
-    private String id;
+    private long id;
     private String name;
     private String location;
     private String description;
@@ -17,8 +17,7 @@ public class User {
     private LocalDateTime lastTweet;
     private MyLinkedListImp<Tweet> tweets;
 
-
-    public User(String id, String name) {
+    public User(long id, String name) {
         this.id = id;
         this.name = name;
         this.tweets = new MyLinkedListImp<>();
@@ -28,11 +27,11 @@ public class User {
         this.tweets = new MyLinkedListImp<>();
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -116,7 +115,19 @@ public class User {
         this.tweets = tweets;
     }
 
-    public int tweetCount() {
+    public Integer tweetCount() {
         return tweets.size();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        return id == other.id;
     }
 }
