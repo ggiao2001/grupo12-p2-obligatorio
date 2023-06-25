@@ -49,10 +49,6 @@ public class CSV {
 
             Iterable<CSVRecord> records = csvFormat.parse(in);
 
-            // defino ids para user y hashtag que se generan automatico
-            long userId = 1L;
-            Long hashTagId = 1L;
-
             for (CSVRecord record : records) {
 
                 // obtengo el nombre del user
@@ -64,11 +60,10 @@ public class CSV {
                 String hashTags = record.get("hashtags");
                 String[] hashTagSplited = hashTags.replace("[", "").replace("]", "").replaceAll("\\s", "").split(",");
                 for (int i = 0; i < hashTagSplited.length; i++) {
-                    HashTag hashTag = new HashTag(hashTagId, hashTagSplited[i]);
+                    HashTag hashTag = new HashTag(hashTagSplited[i].toLowerCase(), hashTagSplited[i]);
                     // si no existia lo agrego a la linkedList de hashTags
                     if (!hashTagLinkedList.contains(hashTag) ) {
                         hashTagLinkedList.add(hashTag);
-                        hashTagId++;
                     }
                     // lo agrego a la linkedList de hashtags del tweet
                     tweet.getHashTags().add(hashTag);
@@ -93,15 +88,20 @@ public class CSV {
 
                 }else{
                     User user = new User();
-                    user.setId(userId);
+                    user.setId(userName.toLowerCase());
                     user.setName(userName);
                     user.setVerified(Boolean.parseBoolean(record.get("user_verified")));
                     user.setLastTweet(date);
                     user.getTweets().add(tweet);
+                    user.setLocation(record.get("user_location"));
+                    user.setDescription(record.get("user_description"));
+                    user.setCreated(parseDateTime(record.get("user_created")));
+                    user.setFollowers(Double.parseDouble(record.get("user_followers")));
+                    user.setFriends(Double.parseDouble(record.get("user_friends")));
+                    user.setFavourites(Double.parseDouble(record.get("user_favourites")));
                     userHashTable.put(userName, user);
                     userLinkedList.add(user);
                     tweetLinkedList.add(tweet);
-                    userId++;
                 }
             }
         } catch (IOException e) {

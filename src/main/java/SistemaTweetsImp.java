@@ -10,7 +10,6 @@ import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 import uy.edu.um.prog2.adt.TADs.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,11 +67,11 @@ public class SistemaTweetsImp implements SistemaTweets {
                 }
             }
             p.setMenciones(mention_count);
-            if(p.getMenciones() >0 && heap.getTamaño() < 10) {
+            if(p.getMenciones() >0 && heap.getSize() < 10) {
                 heap.agregar(p);
             }
         }
-        for (int i = 0; i < 10; i++) {
+        while (heap.getSize() > 0) {
             topPilotos.enqueue(heap.obtenerYEliminar());
         }
         return topPilotos;
@@ -172,7 +171,7 @@ public class SistemaTweetsImp implements SistemaTweets {
         for (int i = 0; i < usuarios.size(); i++) { //recorre todos los usuarios --> orden n
             User u = usuarios.get(i);
             boolean userInserted = false;
-            if (top7usuarios.size() < 15) {
+            if (top7usuarios.size() < 7) {
                 top7usuarios.add(u);
                 userInserted = true;
             } else {

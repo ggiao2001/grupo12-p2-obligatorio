@@ -172,9 +172,9 @@ public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
 
 
     @Override
-    public int obtenerTamaño() {
+    public int obtenerSize() {
         //Delego al getter. Tamaño ya esta definido como variable local.
-        return this.getTamaño();
+        return this.getSize();
     }
 
     /**
@@ -216,7 +216,7 @@ public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
         this.array = array;
     }
 
-    public int getTamaño() {
+    public int getSize() {
         return this.size;
     }
 

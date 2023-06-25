@@ -5,7 +5,7 @@ import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 import java.time.LocalDateTime;
 
 public class User {
-    private long id;
+    private String id;
     private String name;
     private String location;
     private String description;
@@ -18,7 +18,7 @@ public class User {
     private MyLinkedListImp<Tweet> tweets;
 
 
-    public User(long id, String name) {
+    public User(String id, String name) {
         this.id = id;
         this.name = name;
         this.tweets = new MyLinkedListImp<>();
@@ -28,11 +28,11 @@ public class User {
         this.tweets = new MyLinkedListImp<>();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

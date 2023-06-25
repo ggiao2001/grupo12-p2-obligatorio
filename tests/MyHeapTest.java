@@ -19,7 +19,7 @@ public class MyHeapTest {
             System.out.println("Problema con Heap Full");
             fail();
         }
-        Assert.assertEquals(4, heap.obtenerTamaño());
+        Assert.assertEquals(4, heap.obtenerSize());
 
         Comparable[] expected = {8, 3, 5, 1};
         Comparable[] actual = heap.getArray();
@@ -42,7 +42,7 @@ public class MyHeapTest {
             System.out.println("Problema con Heap Full");
             fail();
         }
-        Assert.assertEquals(4, heap.obtenerTamaño());
+        Assert.assertEquals(4, heap.obtenerSize());
 
         Comparable[] expected = {1, 3, 8, 5};
         Comparable[] actual = heap.getArray();
@@ -62,7 +62,7 @@ public class MyHeapTest {
         heap.agregar(1);
 
         Assert.assertEquals(8, heap.obtenerYEliminar().intValue());
-        Assert.assertEquals(3, heap.obtenerTamaño());
+        Assert.assertEquals(3, heap.obtenerSize());
 
         }catch(FullHeapException e){
             System.out.println("Problema con Heap Full");
@@ -83,7 +83,7 @@ public class MyHeapTest {
             heap.agregar(1);
 
             Assert.assertEquals(1, heap.obtenerYEliminar().intValue());
-            Assert.assertEquals(3, heap.obtenerTamaño());
+            Assert.assertEquals(3, heap.obtenerSize());
 
         } catch (FullHeapException e) {
             System.out.println("Problema con Heap Full");
@@ -106,7 +106,7 @@ public class MyHeapTest {
             System.out.println("Problema con Heap Full");
             fail();
         }
-        Assert.assertEquals(3, heap.obtenerTamaño());
+        Assert.assertEquals(3, heap.obtenerSize());
     }
 
     @Test

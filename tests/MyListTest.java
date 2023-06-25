@@ -76,4 +76,14 @@ public class MyListTest {
         list.add("cherry");
         assertEquals(3, list.size());
     }
+
+    @Test
+    public void addIndex() throws OutOfBoundsException {
+        MyLinkedListImp<Integer> list = new MyLinkedListImp<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        list.addIndex(1,11);
+    }
 }

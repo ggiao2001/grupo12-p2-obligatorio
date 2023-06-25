@@ -9,7 +9,7 @@ public interface MyHeap<T extends Comparable<T>> {
 
     T obtenerYEliminar() throws EmptyTreeException;
 
-    int obtenerTamaño();
+    int obtenerSize();
 
     void mostrarArbol();
 
