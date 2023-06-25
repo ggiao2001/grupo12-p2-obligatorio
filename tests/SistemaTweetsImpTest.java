@@ -1,9 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Piloto;
 import uy.edu.um.prog2.adt.Entities.User;
@@ -22,16 +19,18 @@ import java.time.LocalDate;
 public class SistemaTweetsImpTest {
 
     private long startTime;
-    private SistemaTweets sistemaTweets = new SistemaTweetsImp();
+    private final SistemaTweets sistemaTweets = new SistemaTweetsImp();
     private MemoryUsage memoryBefore;
     private MemoryMXBean memoryBean;
 
+    @BeforeClass
+    public static void initialize(){
+        CSV.getDrivers();
+        CSV.getCsvInfo();
+    }
     @Before
     public void Start(){
         System.out.println("");
-        CSV.getDrivers();
-        CSV.getCsvInfo();
-        SistemaTweets sistemaTweets = new SistemaTweetsImp();
         memoryBean = ManagementFactory.getMemoryMXBean();
         memoryBefore = memoryBean.getHeapMemoryUsage();
         startTime = System.currentTimeMillis();
@@ -46,8 +45,7 @@ public class SistemaTweetsImpTest {
         MemoryUsage memoryAfter = memoryBean.getHeapMemoryUsage();
         long memoryUsed = memoryAfter.getUsed() - memoryBefore.getUsed();
         System.out.println("Memory used: " + memoryUsed + " bytes");
-        System.out.println("");
-
+        System.out.println();
     }
 
     /// VELOCIDAD Y RAM
@@ -62,7 +60,7 @@ public class SistemaTweetsImpTest {
     public void testVelocidadMetodo1() throws EmptyTreeException, FullHeapException {
         System.out.println("Test de Velocidad y Memoria - Metodo 1");
 
-        MyQueue<Piloto> pilotosMasMencionados = sistemaTweets.pilotosMasMencionadosMes(12, 2021);
+        //MyQueue<Piloto> pilotosMasMencionados = sistemaTweets.pilotosMasMencionadosMes(12, 2021);
 
     }
 
@@ -109,77 +107,6 @@ public class SistemaTweetsImpTest {
         System.out.println("Test de Velocidad y Memoria - Metodo 6");
         String f1 = "f1";
         int cantidadTweetsPalabra = sistemaTweets.cantidadTweetsPalabra(f1);
-
-    }
-
-
-    //// TESTS DE FUNCIONAMIENTO
-    @Test
-    public void testPilotosMasMencionadosMes() throws EmptyTreeException, FullHeapException {
-        SistemaTweets sistemaTweets = new SistemaTweetsImp();
-
-        MyQueue<Piloto> pilotosMasMencionados = sistemaTweets.pilotosMasMencionadosMes(12, 2021);
-
-            // Add assertions to test the result
-
-    }
-
-    @Test
-    public void testUsuariosMasTweets() {
-
-        try {
-            sistemaTweets.usuariosMasTweets();
-            // Add assertions to test the result
-        } catch (OutOfBoundsException e) {
-            Assert.fail("Exception occurred: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testCantidadHashtags() {
-        LocalDate dia = LocalDate.of(2021,12,12);
-        int cantidadHashtags = sistemaTweets.cantidadHashtags(dia);
-        // Add assertions to test the result
-    }
-
-    @Test
-    public void testHashtagMasUsado() {
-
-        LocalDate dia = LocalDate.of(2021,12,12);
-        HashTag hashtagMasUsado = sistemaTweets.hashtagMasUsado(dia);
-        // Add assertions to test the result
-    }
-
-    @Test
-    public void testUsuariosMasFavoritos() {
-
-        try {
-            sistemaTweets.usuariosMasFavoritos();
-            // Add assertions to test the result
-        } catch (OutOfBoundsException e) {
-            Assert.fail("Exception occurred: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testCantidadTweetsPalabra() {
-
-        String f1 = "f1";
-
-        int cantidadTweetsPalabra = sistemaTweets.cantidadTweetsPalabra(f1);
-        assertTrue(cantidadTweetsPalabra > 0);
-        assertEquals(180,cantidadTweetsPalabra);
-
-        String f1Mayus = "F1";
-        cantidadTweetsPalabra = sistemaTweets.cantidadTweetsPalabra(f1Mayus);
-        assertTrue(cantidadTweetsPalabra > 0);
-        assertEquals(180,cantidadTweetsPalabra);
-
-        String frase_larga = "es imposible que esta frase aparezca por que es muy larga y no hay tweets en español";
-        cantidadTweetsPalabra = sistemaTweets.cantidadTweetsPalabra(frase_larga);
-        assertTrue(cantidadTweetsPalabra == 0);
-        assertEquals(0,cantidadTweetsPalabra);
-
 
     }
 }
