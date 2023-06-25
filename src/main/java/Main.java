@@ -1,6 +1,11 @@
+import uy.edu.um.prog2.adt.Entities.Tweet;
+import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
+import uy.edu.um.prog2.adt.Interfaces.MyQueue;
+import uy.edu.um.prog2.adt.TADs.MyQueueImp;
+import uy.edu.um.prog2.adt.TADs.NodeBST;
 
 import java.io.IOException;
 import java.time.LocalDate;

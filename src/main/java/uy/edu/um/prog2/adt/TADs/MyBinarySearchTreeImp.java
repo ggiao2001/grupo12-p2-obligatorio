@@ -5,6 +5,8 @@ import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 
+import java.time.LocalDateTime;
+
 public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBinarySearchTree<K, T> {
 
     private NodeBST<K, T> root;
@@ -207,6 +209,29 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
             queue.enqueue(nodo);
         }
         return queue;
+    }
+
+    public MyLinkedListImp<T> getRange(K startDate, K endDate) {
+        MyLinkedListImp<T>  result = new MyLinkedListImp<>();
+        getRange(root, startDate, endDate, result);
+        return result;
+    }
+
+    private void getRange(NodeBST<K,T> nodo, K startDate, K endDate, MyLinkedListImp<T> result) {
+        if (nodo == null) {
+            return;
+        }
+
+        // Traverse left subtree
+        getRange(nodo.leftChild, startDate, endDate, result);
+
+        // Check if node's key falls within the date range
+        if (nodo.key.compareTo(startDate) >= 0 && nodo.key.compareTo(endDate) <= 0) {
+            result.add(nodo.data);
+        }
+
+        // Traverse right subtree
+        getRange(nodo.rightChild, startDate, endDate, result);
     }
 
     //GETTER & SETTERS

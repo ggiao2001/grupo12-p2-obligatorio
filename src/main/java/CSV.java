@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -14,6 +15,8 @@ import org.apache.commons.csv.CSVRecord;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Tweet;
 import uy.edu.um.prog2.adt.Entities.User;
+import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
+import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
 import uy.edu.um.prog2.adt.TADs.MyHashTableImp;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 import uy.edu.um.prog2.adt.TADs.hash.HashTable;
@@ -25,8 +28,9 @@ public class CSV {
     public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
     public static final HashTable<String, User> userHashTable = new MyHashTable<>();
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
-    private static final String csvRaw = "src/main/resources/f1_dataset_test.csv";
+    private static final String csvRaw = "src/main/resources/datasetSanti.csv";
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
+    public static final MyBinarySearchTreeImp<LocalDateTimeWrapper,Tweet> tweetBST = new MyBinarySearchTreeImp<LocalDateTimeWrapper, Tweet>();
     public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:ss");
@@ -80,6 +84,7 @@ public class CSV {
                     tweet.setId(parseLong(record.get("id")));
                     LocalDateTime date = parseDateTime(record.get("date"));
                     tweet.setDate(date);
+                    LocalDateTimeWrapper dateWrapper = new LocalDateTimeWrapper(date);
                     tweet.setContent(record.get("text"));
                     tweet.setSource(record.get("source"));
                     tweet.setRetweet(parseBoolean(record.get("is_retweet")));
@@ -88,6 +93,7 @@ public class CSV {
                         userMatch.getTweets().add(tweet);
                         //userMatch.incrementTweetCount(); opcional si no tenes un size en tu lista, creo que no tenes
                         tweetLinkedList.add(tweet);
+                        tweetBST.insert(dateWrapper, tweet);
                         if (date.isAfter(userMatch.getLastTweet())) {
                             userMatch.setLastTweet(date);
                             userMatch.setVerified(Boolean.parseBoolean(record.get("user_verified"))); // Actualizar el estado verificado si se encuentra un tweet más reciente
@@ -109,6 +115,7 @@ public class CSV {
                         userHashTable.put(userName, user);
                         userLinkedList.add(user);
                         tweetLinkedList.add(tweet);
+                        tweetBST.insert(dateWrapper, tweet);
                         userId++;
                     }
                 } catch (Exception ignored) {
@@ -129,6 +136,30 @@ public class CSV {
             } catch (DateTimeParseException e2) {
                 throw new IllegalArgumentException("Invalid date format: " + dateString);
             }
+        }
+    }
+
+    public static class LocalDateTimeWrapper implements Comparable<LocalDateTimeWrapper> {
+        private LocalDateTime dateTime;
+
+        public LocalDateTimeWrapper(LocalDateTime dateTime) {
+            this.dateTime = dateTime;
+        }
+
+        public LocalDateTime getDateTime() {
+            return dateTime;
+        }
+
+        @Override
+        public int compareTo(LocalDateTimeWrapper other) {
+            if (dateTime.isAfter(other.getDateTime())){
+                return 1;
+            }else if (dateTime.isBefore(other.getDateTime())){
+                return -1;
+            }else{
+                return 0;
+            }
+
         }
     }
 

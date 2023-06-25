@@ -11,6 +11,7 @@ import uy.edu.um.prog2.adt.TADs.*;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 public class SistemaTweetsImp implements SistemaTweets {
     MyLinkedListImp<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet> tweets = CSV.tweetLinkedList;
+    MyBinarySearchTreeImp<CSV.LocalDateTimeWrapper, Tweet> tweetsTree = CSV.tweetBST;
     MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
     MyLinkedListImp<String> pilotos = CSV.driversLinkedList;
 
@@ -28,23 +30,21 @@ public class SistemaTweetsImp implements SistemaTweets {
     //de orden n en notación Big O.
     @Override
     public MyQueueImp<Piloto> pilotosMasMencionadosMes(int month, int year) throws FullHeapException, EmptyTreeException {
-
         MyQueueImp<Piloto> topPilotos = new MyQueueImp<>();
         MyHeapImp<Piloto> heap = new MyHeapImp<>(true);
-        MyLinkedListImp<Tweet> listaTweets = CSV.tweetLinkedList;
-        LocalDate fecha1 = LocalDate.of(year, month, 1);
-        LocalDate fecha2;
+        LocalDateTime fecha1 = LocalDate.of(year, month, 1).atStartOfDay();
+        LocalDateTime fecha2;
         if (month < 12) {
-            fecha2 = LocalDate.of(year, month + 1, 1);
+            fecha2 = LocalDate.of(year, month + 1, 1).atStartOfDay();
         } else {
-            fecha2 = LocalDate.of(year + 1, 1, 1);
+            fecha2 = LocalDate.of(year + 1, 1, 1).atStartOfDay();
         }
-
-
+        CSV.LocalDateTimeWrapper fecha1Wrapp = new CSV.LocalDateTimeWrapper(fecha1);
+        CSV.LocalDateTimeWrapper fecha2Wrapp = new CSV.LocalDateTimeWrapper(fecha2);
+        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(fecha1Wrapp,fecha2Wrapp); //recorrer todos los tweets en arbol --> orden log n
         for (int j = 0; j < pilotos.size(); j++) { //cantidad de pilotos fija --> orden 1
             String nombreP = pilotos.get(j);
             Piloto p = new Piloto(nombreP);
-
 
             String[] nameParts = nombreP.split(" "); // Split full name into first name and last name
             String firstName = nameParts[0];
@@ -53,15 +53,15 @@ public class SistemaTweetsImp implements SistemaTweets {
             Pattern pattern = Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
 
             int mention_count = 0;
-            for (int i = 0; i < listaTweets.size(); i++) { //recorrer todos los tweets --> orden n
-                Tweet t = listaTweets.get(i);
-                if (t.getDate().toLocalDate().isAfter(fecha1) && t.getDate().toLocalDate().isBefore(fecha2)) {
-                    String tcontent = t.getContent();
-                    Matcher matcher = pattern.matcher(tcontent);
-                    while (matcher.find()) {
-                        mention_count++;
-                    }
+            for (int i = 0; i < tweetsFecha.size(); i++) {
+                Tweet t = tweetsFecha.get(i);
+
+                String tcontent = t.getContent();
+                Matcher matcher = pattern.matcher(tcontent);
+                while (matcher.find()) {
+                    mention_count++;
                 }
+
             }
             p.setMenciones(mention_count);
             if (p.getMenciones() > 0 && heap.getSize() < 10) {
@@ -103,12 +103,16 @@ public class SistemaTweetsImp implements SistemaTweets {
 
     //Cantidad de hashtags distintos para un día dado. El día será ingresado en el formato
     //YYYY-MM-DD.
+
     @Override
     public int cantidadHashtags(LocalDate dia) {
+        CSV.LocalDateTimeWrapper diaWrapped = new CSV.LocalDateTimeWrapper(dia.atStartOfDay());
+        CSV.LocalDateTimeWrapper diaDespuesWrapped = new CSV.LocalDateTimeWrapper(dia.plusDays(1).atStartOfDay());
+        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(diaWrapped,diaDespuesWrapped);
         MyLinkedListImp<HashTag> hashTagsDia = new MyLinkedListImp<>();
         int contador = 0;
-        for (int i = 0; i < tweets.size(); i++) {
-            Tweet t = tweets.get(i);
+        for (int i = 0; i < tweetsFecha.size(); i++) {
+            Tweet t = tweetsFecha.get(i);
             if (t.getDate().toLocalDate().equals(dia)) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
@@ -126,11 +130,13 @@ public class SistemaTweetsImp implements SistemaTweets {
     //en el formato YYYY-MM-DD.
     @Override
     public HashTag hashtagMasUsado(LocalDate dia) {
-
+        CSV.LocalDateTimeWrapper diaWrapped = new CSV.LocalDateTimeWrapper(dia.atStartOfDay());
+        CSV.LocalDateTimeWrapper diaDespuesWrapped = new CSV.LocalDateTimeWrapper(dia.plusDays(1).atStartOfDay());
+        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(diaWrapped,diaDespuesWrapped);
         MyLinkedListImp<HashTag> aReset = new MyLinkedListImp<>();
         HashTag hTop = null;
-        for (int i = 0; i < tweets.size(); i++) {
-            Tweet t = tweets.get(i);
+        for (int i = 0; i < tweetsFecha.size(); i++) {
+            Tweet t = tweetsFecha.get(i);
             if (t.getDate().isAfter(dia.atStartOfDay()) && t.getDate().isBefore(dia.plusDays(1).atStartOfDay())) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
@@ -177,5 +183,7 @@ public class SistemaTweetsImp implements SistemaTweets {
         }
         return mentionCount;
     }
+
+
 
 }
