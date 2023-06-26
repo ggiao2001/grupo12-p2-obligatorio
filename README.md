@@ -97,3 +97,7 @@ Con los datos del archivo f1_dataset_test, los resultados fueron los siguientes:
 ## UML
 
 ![](uml.jpeg)
+
+- Link al repositorio en GitHub
+
+https://github.com/ggiao2001/grupo12-p2-obligatorio.git
