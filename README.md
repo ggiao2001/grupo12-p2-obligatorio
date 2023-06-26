@@ -58,17 +58,42 @@ Se encuentran en la clase SistemaTweetsImp, que implementa la interface SistemaT
    Se define un contador mentionCount para la cantidad de menciones y se recorre la lista de tweets. Si la frase dada se encuentra en el contenido del tweet,
    se suma al contador. Al final, se devuelve dicho contador.
 
-## Tests de velocidad y RAM </br>
-
-**nota: se utiliza el test csv para medir la velocidad** </br>
-Para medir la velocidad, tomamos el tiempo antes de comenzar cada test y al finalizar. 
-![](testsVelocidad1.png)
-![](testsVelocidad2.png)
-
+## Tests de velocidad y RAM </br> 
 
 En la carpeta de tests, en la clase SistemaTweetsImpTest, se obtienen la velocidad de ejecución y la RAM usada por cada método ejecutado. Esto se define con
 start() y end(), para obtener la diferencia en tiempos y memoria entre el principio y el final de cada método.
 
-## UML
+Con los datos del archivo f1_dataset_test, los resultados fueron los siguientes:
+
+   1. Test de Velocidad y Memoria - Metodo 1
+      Execution time: 6991 milliseconds
+      Memory used: 48234496 bytes
+
+   2. Test de Velocidad y Memoria - Metodo 2
+      Execution time: 9033 milliseconds
+      Memory used: 2097152 bytes
+
+   3. Test de Velocidad y Memoria - Metodo 3
+      Execution time: 79 milliseconds
+      Memory used: 0 bytes
+
+   4. Test de Velocidad y Memoria - Metodo 4
+      Execution time: 312 milliseconds
+      Memory used: 0 bytes
+
+   5. Test de Velocidad y Memoria - Metodo 5
+      Execution time: 29 milliseconds
+      Memory used: 0 bytes
+
+   6. Test de Velocidad y Memoria - Metodo 6
+      Execution time: 13952 milliseconds
+      Memory used: -46263328 bytes
+
+   0. Test de Velocidad y Memoria - Carga de Datos
+      Execution time: 29881 milliseconds
+      Memory used: 31002144 bytes
+
+
+- UML
 
 ![](uml.jpeg)
