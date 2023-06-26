@@ -1,21 +1,21 @@
 Entrega Final - Obligatorio - Programación II - Tomás Bordaberry y Giao Giao Ma - 2023.06.25
 
-- Lector de CSV -
+- Lector de CSV
 
 En la clase están los métodos para leer el CSV y el archivo drivers.txt. Se cargan los Tweet, Hashtag y User en listas y/o hashtables para su uso posterior.
 Se cargan también IDs automáticos de tipo long para Hashtag y User. Los HashTag se cargan también en una linkedList asociada a cada Tweet correspondiente,
 y cada usuario tiene también una lista asociada de sus Tweet.
 
-- FrontEnd -
+- FrontEnd
 
 La clase FrontEnd tiene el despliegue del menú y el procesamiento de los parámetros ingresados por el usuario para su uso en las funciones. Para el
 despliegue del menú se usó un switch-case, y los input y output se procesan adecuadamente para cada reporte.
 
-- Main -
+- Main
 
 La clase Main llama a las funciones CSV.getDrivers() y CSV.getCsvInfo(), al igual que a la clase FrontEnd.
 
-- Métodos de los reportes -
+- Métodos de los reportes
 
 Se encuentran en la clase SistemaTweetsImp, que implementa la interface SistemaTweets. Se cargan las listas de la clase CSV para su uso.
 
@@ -43,7 +43,11 @@ Se encuentran en la clase SistemaTweetsImp, que implementa la interface SistemaT
    Se define un contador mentionCount para la cantidad de menciones y se recorre la lista de tweets. Si la frase dada se encuentra en el contenido del tweet,
    se suma al contador. Al final, se devuelve dicho contador.
 
-- Tests de velocidad y RAM -
+- Tests de velocidad y RAM 
 
 En la carpeta de tests, en la clase SistemaTweetsImpTest, se obtienen la velocidad de ejecución y la RAM usada por cada método ejecutado. Esto se define con
 start() y end(), para obtener la diferencia en tiempos y memoria entre el principio y el final de cada método.
+
+- UML
+
+![](uml.jpeg)
