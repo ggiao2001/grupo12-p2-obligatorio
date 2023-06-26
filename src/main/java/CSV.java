@@ -28,10 +28,10 @@ public class CSV {
     public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
     public static final HashTable<String, User> userHashTable = new MyHashTable<>();
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
-    private static final String csvRaw = "src/main/resources/datasetSanti.csv";
+    private static final String csvRaw = "src/main/resources/f1_dataset_test.csv";
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
     public static final MyBinarySearchTreeImp<LocalDateTimeWrapper,Tweet> tweetBST = new MyBinarySearchTreeImp<LocalDateTimeWrapper, Tweet>();
-    public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
+    //public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:ss");
 
@@ -72,10 +72,9 @@ public class CSV {
                     for (int i = 0; i < hashTagSplited.length; i++) {
                         HashTag hashTag = new HashTag(hashTagId, hashTagSplited[i]);
                         // si no existia lo agrego a la linkedList de hashTags
-                        if (!hashTagLinkedList.contains(hashTag)) {
-                            hashTagLinkedList.add(hashTag);
-                            hashTagId++;
-                        }
+
+                        hashTagId++;
+
                         // lo agrego a la linkedList de hashtags del tweet
                         tweet.getHashTags().add(hashTag);
                     }

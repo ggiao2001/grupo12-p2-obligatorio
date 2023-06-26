@@ -14,10 +14,41 @@ import java.time.LocalTime;
 
 public class Main {
     public static void main(String[] args) throws EmptyTreeException, FullHeapException, OutOfBoundsException {
-        CSV.getDrivers();
-        CSV.getCsvInfo();
+        // Create a new thread to run the CSV methods
+        Thread csvThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CSV.getDrivers();
+                CSV.getCsvInfo();
+            }
+        });
+
+        // Start the thread
+        csvThread.start();
+
+        // Display the loading bar while waiting for the thread to finish
+        displayLoadingBar(csvThread);
 
         FrontEnd frontEnd = new FrontEnd();
         frontEnd.Menu();
+    }
+
+    private static void displayLoadingBar(Thread thread) {
+        char[] animationChars = {'|', '/', '-', '\\'};
+
+        try {
+            System.out.println("Cargando...");
+
+            while (thread.isAlive()) {
+                for (char c : animationChars) {
+                    System.out.print("\r" + "Procesando " + c);
+                    Thread.sleep(100);
+                }
+            }
+
+            System.out.println("\rCarga completa!     ");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

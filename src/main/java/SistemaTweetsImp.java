@@ -20,7 +20,7 @@ public class SistemaTweetsImp implements SistemaTweets {
     MyLinkedListImp<User> usuarios = CSV.userLinkedList;
     MyLinkedListImp<Tweet> tweets = CSV.tweetLinkedList;
     MyBinarySearchTreeImp<CSV.LocalDateTimeWrapper, Tweet> tweetsTree = CSV.tweetBST;
-    MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
+    //MyLinkedListImp<HashTag> hashtags = CSV.hashTagLinkedList;
     MyLinkedListImp<String> pilotos = CSV.driversLinkedList;
 
     //Listar los 10 pilotos activos en la temporada 2023 más mencionados en los tweets
@@ -106,13 +106,10 @@ public class SistemaTweetsImp implements SistemaTweets {
 
     @Override
     public int cantidadHashtags(LocalDate dia) {
-        CSV.LocalDateTimeWrapper diaWrapped = new CSV.LocalDateTimeWrapper(dia.atStartOfDay());
-        CSV.LocalDateTimeWrapper diaDespuesWrapped = new CSV.LocalDateTimeWrapper(dia.plusDays(1).atStartOfDay());
-        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(diaWrapped,diaDespuesWrapped);
         MyLinkedListImp<HashTag> hashTagsDia = new MyLinkedListImp<>();
         int contador = 0;
-        for (int i = 0; i < tweetsFecha.size(); i++) {
-            Tweet t = tweetsFecha.get(i);
+        for (int i = 0; i < tweets.size(); i++) {
+            Tweet t = tweets.get(i);
             if (t.getDate().toLocalDate().equals(dia)) {
                 for (int j = 0; j < t.getHashTags().size(); j++) {
                     HashTag h = t.getHashTags().get(j);
@@ -132,17 +129,24 @@ public class SistemaTweetsImp implements SistemaTweets {
     public HashTag hashtagMasUsado(LocalDate dia) {
         CSV.LocalDateTimeWrapper diaWrapped = new CSV.LocalDateTimeWrapper(dia.atStartOfDay());
         CSV.LocalDateTimeWrapper diaDespuesWrapped = new CSV.LocalDateTimeWrapper(dia.plusDays(1).atStartOfDay());
-        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(diaWrapped,diaDespuesWrapped);
-        MyLinkedListImp<HashTag> aReset = new MyLinkedListImp<>();
+        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(diaWrapped, diaDespuesWrapped);
+        MyLinkedListImp<HashTag> hashtagCounts = new MyLinkedListImp<>();
         HashTag hTop = null;
+
         for (int i = 0; i < tweetsFecha.size(); i++) {
             Tweet t = tweetsFecha.get(i);
-            if (t.getDate().isAfter(dia.atStartOfDay()) && t.getDate().isBefore(dia.plusDays(1).atStartOfDay())) {
-                for (int j = 0; j < t.getHashTags().size(); j++) {
-                    HashTag h = t.getHashTags().get(j);
-                    if (!h.getText().toLowerCase().equals("'f1'") && !h.getText().toLowerCase().equals("f1")) {
-                        h.setUsosDia(h.getUsosDia() + 1);
-                        aReset.add(h);
+            for (int j = 0; j < t.getHashTags().size(); j++) {
+                HashTag h = t.getHashTags().get(j);
+                if (!h.getText().toLowerCase().equals("'f1'") && !h.getText().toLowerCase().equals("f1")) {
+                    HashTag existingTag = getHashTag(hashtagCounts, h);
+                    if (existingTag != null) {
+                        existingTag.setUsosDia(existingTag.getUsosDia() + 1);
+                        if (hTop == null || existingTag.getUsosDia() > hTop.getUsosDia()) {
+                            hTop = existingTag;
+                        }
+                    } else {
+                        h.setUsosDia(1);
+                        hashtagCounts.add(h);
                         if (hTop == null || h.getUsosDia() > hTop.getUsosDia()) {
                             hTop = h;
                         }
@@ -150,13 +154,26 @@ public class SistemaTweetsImp implements SistemaTweets {
                 }
             }
         }
-        //Reseteo los contadores de los hashtags
-        for (int i = 0; i < aReset.size(); i++) {
-            aReset.get(i).setUsosDia(0);
+
+        // Reset the usage counters of the hashtags
+        for (int i = 0; i < hashtagCounts.size(); i++) {
+            hashtagCounts.get(i).setUsosDia(0);
         }
 
         return hTop;
     }
+
+    private HashTag getHashTag(MyLinkedListImp<HashTag> hashtagCounts, HashTag targetTag) {
+        for (int i = 0; i < hashtagCounts.size(); i++) {
+            HashTag h = hashtagCounts.get(i);
+            if (h.getText().equalsIgnoreCase(targetTag.getText())) {
+                return h;
+            }
+        }
+        return null;
+    }
+
+
 
 
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
@@ -174,6 +191,7 @@ public class SistemaTweetsImp implements SistemaTweets {
     @Override
     public int cantidadTweetsPalabra(String frase) {
         int mentionCount = 0;
+        frase = frase.toLowerCase();
         for (int i = 0; i < tweets.size(); i++) {
             Tweet t = tweets.get(i);
             String tcontent = t.getContent().toLowerCase();

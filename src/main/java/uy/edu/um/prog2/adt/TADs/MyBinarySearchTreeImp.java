@@ -120,24 +120,90 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
     }
 
     //METHODS AUXILIARES
-    private void insertRecursivo(NodeBST<K, T> actual, NodeBST<K, T> nuevo) {
+    private NodeBST<K, T> insertRecursivo(NodeBST<K, T> actual, NodeBST<K, T> nuevo) {
+        if (actual == null) {
+            return nuevo;
+        }
+
         if (nuevo.getKey().compareTo(actual.getKey()) < 0) {
-            if (actual.getLeftChild() == null) {
-                actual.setLeftChild(nuevo);
-            } else {
-                insertRecursivo(actual.getLeftChild(), nuevo);
-            }
+            actual.setLeftChild(insertRecursivo(actual.getLeftChild(), nuevo));
         } else if (nuevo.getKey().compareTo(actual.getKey()) > 0) {
-            if (actual.getRightChild() == null) {
-                actual.setRightChild(nuevo);
-            } else {
-                insertRecursivo(actual.getRightChild(), nuevo);
-            }
+            actual.setRightChild(insertRecursivo(actual.getRightChild(), nuevo));
         } else {
-            // Si tengo dos keys iguales. Mantengo el que nodo que ya existia
-            // Le agrego datos nuevos.
+            // Si tengo dos keys iguales. Mantengo el nodo que ya existía
+            // y le agrego los nuevos datos.
             actual.setData(nuevo.getData());
         }
+
+        // Update height and balance factor
+        actual.setHeight(1 + Math.max(getHeight(actual.getLeftChild()), getHeight(actual.getRightChild())));
+        int balanceFactor = getBalanceFactor(actual);
+
+        // Rebalance the tree if necessary
+        if (balanceFactor > 1 && nuevo.getKey().compareTo(actual.getLeftChild().getKey()) < 0) {
+            // Left-Left case
+            return rotateRight(actual);
+        }
+        if (balanceFactor < -1 && nuevo.getKey().compareTo(actual.getRightChild().getKey()) > 0) {
+            // Right-Right case
+            return rotateLeft(actual);
+        }
+        if (balanceFactor > 1 && nuevo.getKey().compareTo(actual.getLeftChild().getKey()) > 0) {
+            // Left-Right case
+            actual.setLeftChild(rotateLeft(actual.getLeftChild()));
+            return rotateRight(actual);
+        }
+        if (balanceFactor < -1 && nuevo.getKey().compareTo(actual.getRightChild().getKey()) < 0) {
+            // Right-Left case
+            actual.setRightChild(rotateRight(actual.getRightChild()));
+            return rotateLeft(actual);
+        }
+
+        return actual;
+    }
+
+    private int getHeight(NodeBST<K, T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.getHeight();
+    }
+
+    private int getBalanceFactor(NodeBST<K, T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return getHeight(node.getLeftChild()) - getHeight(node.getRightChild());
+    }
+
+    private NodeBST<K, T> rotateRight(NodeBST<K, T> node) {
+        NodeBST<K, T> newRoot = node.getLeftChild();
+        NodeBST<K, T> temp = newRoot.getRightChild();
+
+        // Perform rotation
+        newRoot.setRightChild(node);
+        node.setLeftChild(temp);
+
+        // Update heights
+        node.setHeight(1 + Math.max(getHeight(node.getLeftChild()), getHeight(node.getRightChild())));
+        newRoot.setHeight(1 + Math.max(getHeight(newRoot.getLeftChild()), getHeight(newRoot.getRightChild())));
+
+        return newRoot;
+    }
+
+    private NodeBST<K, T> rotateLeft(NodeBST<K, T> node) {
+        NodeBST<K, T> newRoot = node.getRightChild();
+        NodeBST<K, T> temp = newRoot.getLeftChild();
+
+        // Perform rotation
+        newRoot.setLeftChild(node);
+        node.setRightChild(temp);
+
+        // Update heights
+        node.setHeight(1 + Math.max(getHeight(node.getLeftChild()), getHeight(node.getRightChild())));
+        newRoot.setHeight(1 + Math.max(getHeight(newRoot.getLeftChild()), getHeight(newRoot.getRightChild())));
+
+        return newRoot;
     }
 
     private NodeBST<K,T> busquedaRecursiva(NodeBST<K, T> actual, K key) {
@@ -212,26 +278,33 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
     }
 
     public MyLinkedListImp<T> getRange(K startDate, K endDate) {
-        MyLinkedListImp<T>  result = new MyLinkedListImp<>();
+        MyLinkedListImp<T> result = new MyLinkedListImp<>();
         getRange(root, startDate, endDate, result);
         return result;
     }
 
-    private void getRange(NodeBST<K,T> nodo, K startDate, K endDate, MyLinkedListImp<T> result) {
-        if (nodo == null) {
+    private void getRange(NodeBST<K, T> node, K startDate, K endDate, MyLinkedListImp<T> result) {
+        if (node == null) {
             return;
         }
 
-        // Traverse left subtree
-        getRange(nodo.leftChild, startDate, endDate, result);
+        int compareStart = startDate.compareTo(node.getKey());
+        int compareEnd = endDate.compareTo(node.getKey());
 
-        // Check if node's key falls within the date range
-        if (nodo.key.compareTo(startDate) >= 0 && nodo.key.compareTo(endDate) <= 0) {
-            result.add(nodo.data);
+        if (compareStart < 0) {
+
+            getRange(node.getLeftChild(), startDate, endDate, result);
         }
 
-        // Traverse right subtree
-        getRange(nodo.rightChild, startDate, endDate, result);
+        if (compareStart <= 0 && compareEnd >= 0) {
+
+            result.add(node.getData());
+        }
+
+        if (compareEnd > 0) {
+
+            getRange(node.getRightChild(), startDate, endDate, result);
+        }
     }
 
     //GETTER & SETTERS

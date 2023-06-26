@@ -5,6 +5,7 @@ public class NodeBST <K extends Comparable<K>, T>{
     T data;
     NodeBST <K, T> leftChild;
     NodeBST <K, T> rightChild;
+    private int height;
 
     //Constructor completo
     public NodeBST(K key, T data, NodeBST<K, T> leftChild, NodeBST<K, T> rightChild) {
@@ -54,6 +55,14 @@ public class NodeBST <K extends Comparable<K>, T>{
 
     public void setRightChild(NodeBST<K, T> rightChild) {
         this.rightChild = rightChild;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
 
