@@ -5,7 +5,7 @@ import uy.edu.um.prog2.adt.Interfaces.MyList;
 
 import java.util.Comparator;
 
-public class MyLinkedListImp <T> implements MyList<T> {
+public class MyLinkedListImp<T> implements MyList<T> {
 
     private Node<T> first;
     private Node<T> last;
@@ -15,21 +15,21 @@ public class MyLinkedListImp <T> implements MyList<T> {
         this.last = null;
     }
 
-////////////////////////////////
+    ////////////////////////////////
     //METHODS DE MYLIST
 ////////////////////////////////
     @Override
     public void add(T value) {
         Node<T> toAdd = new Node<>(value);
-        if(this.first!= null){
+        if (this.first != null) {
             Node<T> aux = this.first;
-            while(aux.getNext()!= null){
+            while (aux.getNext() != null) {
                 aux = aux.getNext();
             }
             aux.setNext(toAdd);
             this.last = toAdd;
 
-        }else{
+        } else {
             this.first = toAdd;
             this.last = toAdd;
         }
@@ -138,11 +138,11 @@ public class MyLinkedListImp <T> implements MyList<T> {
     @Override
     public int size() {
         int count = 0;
-        if(this.first != null){
-            count+=1;
+        if (this.first != null) {
+            count += 1;
             Node<T> aux = this.first;
-            while(aux.getNext()!= null){
-                count+=1;
+            while (aux.getNext() != null) {
+                count += 1;
                 aux = aux.getNext();
             }
         }

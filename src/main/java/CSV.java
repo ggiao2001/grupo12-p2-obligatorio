@@ -1,36 +1,33 @@
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Long.parseLong;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Tweet;
 import uy.edu.um.prog2.adt.Entities.User;
-import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
 import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
-import uy.edu.um.prog2.adt.TADs.MyHashTableImp;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
 import uy.edu.um.prog2.adt.TADs.hash.HashTable;
 import uy.edu.um.prog2.adt.TADs.hash.table.MyHashTable;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Long.parseLong;
+
 public class CSV {
 
-    private static final String driversFile = "src/main/resources/drivers.txt";
     public static final MyLinkedListImp<String> driversLinkedList = new MyLinkedListImp<>();
     public static final HashTable<String, User> userHashTable = new MyHashTable<>();
     public static final MyLinkedListImp<User> userLinkedList = new MyLinkedListImp<>();
-    private static final String csvRaw = "src/main/resources/f1_dataset_test.csv";
     public static final MyLinkedListImp<Tweet> tweetLinkedList = new MyLinkedListImp<>();
-    public static final MyBinarySearchTreeImp<LocalDateTimeWrapper,Tweet> tweetBST = new MyBinarySearchTreeImp<LocalDateTimeWrapper, Tweet>();
+    public static final MyBinarySearchTreeImp<LocalDateTimeWrapper, Tweet> tweetBST = new MyBinarySearchTreeImp<LocalDateTimeWrapper, Tweet>();
+    private static final String driversFile = "src/main/resources/drivers.txt";
+    private static final String csvRaw = "src/main/resources/f1_dataset_test.csv";
     //public static final MyLinkedListImp<HashTag> hashTagLinkedList = new MyLinkedListImp<>();
     private static final DateTimeFormatter FORMATTER_1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter FORMATTER_2 = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm:ss");
@@ -139,7 +136,7 @@ public class CSV {
     }
 
     public static class LocalDateTimeWrapper implements Comparable<LocalDateTimeWrapper> {
-        private LocalDateTime dateTime;
+        private final LocalDateTime dateTime;
 
         public LocalDateTimeWrapper(LocalDateTime dateTime) {
             this.dateTime = dateTime;
@@ -151,11 +148,11 @@ public class CSV {
 
         @Override
         public int compareTo(LocalDateTimeWrapper other) {
-            if (dateTime.isAfter(other.getDateTime())){
+            if (dateTime.isAfter(other.getDateTime())) {
                 return 1;
-            }else if (dateTime.isBefore(other.getDateTime())){
+            } else if (dateTime.isBefore(other.getDateTime())) {
                 return -1;
-            }else{
+            } else {
                 return 0;
             }
 

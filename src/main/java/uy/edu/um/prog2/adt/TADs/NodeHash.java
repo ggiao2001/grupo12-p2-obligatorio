@@ -1,9 +1,9 @@
 package uy.edu.um.prog2.adt.TADs;
 
-public class NodeHash<K,V> {
+public class NodeHash<K, V> {
     private K key;
     private V value;
-    private NodeHash<K,V> next;
+    private NodeHash<K, V> next;
 
     public NodeHash(K key, V value) {
         this.key = key;

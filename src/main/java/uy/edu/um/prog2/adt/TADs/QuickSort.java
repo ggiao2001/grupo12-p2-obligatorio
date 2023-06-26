@@ -7,13 +7,13 @@ public class QuickSort {
             //pivote de particionado:
             //los elementos menores que el pivote se colocan a su izq
             //y los mayores a la derecha
-            if(desc){
+            if (desc) {
                 //Ordeno de forma descendiente
                 int partitionIndex = partitionDesc(arr, low, high);
                 //Paso recursivo:
                 quickSort(arr, low, partitionIndex - 1, desc);
                 quickSort(arr, partitionIndex + 1, high, desc);
-            }else {
+            } else {
                 //Ordeno de forma ascendiente
                 int partitionIndex = partitionAsc(arr, low, high);
                 //Paso recursivo:

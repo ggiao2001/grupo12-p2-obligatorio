@@ -32,6 +32,6 @@ public class Piloto implements Comparable<Piloto> {
 
     @Override
     public int compareTo(Piloto o) {
-        return (this.menciones-o.getMenciones());
+        return (this.menciones - o.getMenciones());
     }
 }

@@ -1,7 +1,8 @@
 package uy.edu.um.prog2.adt.Entities;
 
-import java.time.LocalDateTime;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
+
+import java.time.LocalDateTime;
 
 public class Tweet {
     private long id;
@@ -28,6 +29,10 @@ public class Tweet {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public LocalDateTime getDate() {
         return date;
     }
@@ -48,8 +53,16 @@ public class Tweet {
         return source;
     }
 
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public boolean isRetweet() {
         return isRetweet;
+    }
+
+    public void setRetweet(boolean retweet) {
+        isRetweet = retweet;
     }
 
     public MyLinkedListImp<HashTag> getHashTags() {
@@ -58,17 +71,5 @@ public class Tweet {
 
     public void setHashTags(MyLinkedListImp<HashTag> hashTags) {
         this.hashTags = hashTags;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public void setRetweet(boolean retweet) {
-        isRetweet = retweet;
     }
 }

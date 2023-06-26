@@ -46,16 +46,16 @@ public class MyStackImp<T> implements MyStack<T> {
 
     @Override
     public T pop() throws EmptyStackException {
-        if(this.first == null){
+        if (this.first == null) {
             throw new EmptyStackException();
-        }else if(this.first.getNext() !=null){
+        } else if (this.first.getNext() != null) {
             //Caso en el que hay más de uno
-            Node <T> to_return = this.first;
+            Node<T> to_return = this.first;
             this.first = this.first.getNext();
             return to_return.getValue();
-        }else{
+        } else {
             //Caso en el que hay solo uno
-            Node <T> to_return = this.first;
+            Node<T> to_return = this.first;
             this.first = null;
             return to_return.getValue();
         }
@@ -63,9 +63,9 @@ public class MyStackImp<T> implements MyStack<T> {
 
     @Override
     public T peek() {
-        if(this.first == null){
+        if (this.first == null) {
             return null;
-        }else {
+        } else {
             return this.first.getValue();
         }
     }
@@ -73,10 +73,10 @@ public class MyStackImp<T> implements MyStack<T> {
     @Override
     public int size() {
         int count = 0;
-        if(this.first != null){
+        if (this.first != null) {
             count++;
             Node<T> aux = this.first;
-            while(aux.getNext()!= null){
+            while (aux.getNext() != null) {
                 count++;
                 aux = aux.getNext();
             }
@@ -87,18 +87,18 @@ public class MyStackImp<T> implements MyStack<T> {
     @Override
     public T get(int position) {
         if (this.first != null) {
-            if (position == 0){
+            if (position == 0) {
                 return this.first.getValue();
             } else {
                 Node<T> aux = this.first;
                 int search = 0;
-                while (search < position && aux.getNext() != null){
+                while (search < position && aux.getNext() != null) {
                     aux = aux.getNext();
                     search++;
                 }
-                if (search == position){
+                if (search == position) {
                     return aux.getValue();
-                }else{
+                } else {
                     return null;
                 }
             }

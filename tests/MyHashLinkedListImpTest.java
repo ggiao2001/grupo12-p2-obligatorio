@@ -1,25 +1,25 @@
+import org.junit.jupiter.api.Test;
+import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.TADs.MyHashLinkedListImp;
 import uy.edu.um.prog2.adt.TADs.NodeHash;
-import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyHashLinkedListImpTest {
 
-    private MyHashLinkedListImp<Integer,String> hashLinkedList = new MyHashLinkedListImp<>();
-    private NodeHash<Integer, String> nodo1 = new NodeHash<>(1,"a");
-    private NodeHash<Integer, String> nodo2 = new NodeHash<>(2,"b");
-    private NodeHash<Integer, String> nodo3 = new NodeHash<>(3,"c");
+    private final MyHashLinkedListImp<Integer, String> hashLinkedList = new MyHashLinkedListImp<>();
+    private final NodeHash<Integer, String> nodo1 = new NodeHash<>(1, "a");
+    private final NodeHash<Integer, String> nodo2 = new NodeHash<>(2, "b");
+    private final NodeHash<Integer, String> nodo3 = new NodeHash<>(3, "c");
 
     @Test
     void add() {
         hashLinkedList.add(nodo1);
         assertEquals("a", hashLinkedList.getFirst().getValue());
         hashLinkedList.add(nodo2);
-        assertEquals("b",hashLinkedList.getLast().getValue());
+        assertEquals("b", hashLinkedList.getLast().getValue());
         hashLinkedList.add(nodo3);
-        assertEquals("c",hashLinkedList.getLast().getValue());
+        assertEquals("c", hashLinkedList.getLast().getValue());
     }
 
     @Test
@@ -41,7 +41,8 @@ class MyHashLinkedListImpTest {
         assertEquals(nodo1, hashLinkedList.getKey(1));
         assertEquals(nodo2, hashLinkedList.getKey(2));
         assertEquals(nodo3, hashLinkedList.getKey(3));
-     }
+    }
+
     @Test
     void contains() {
         hashLinkedList.add(nodo1);
@@ -73,6 +74,6 @@ class MyHashLinkedListImpTest {
         hashLinkedList.add(nodo1);
         assertEquals(1, hashLinkedList.size());
         hashLinkedList.add(nodo2);
-        assertEquals(2,hashLinkedList.size());
+        assertEquals(2, hashLinkedList.size());
     }
 }

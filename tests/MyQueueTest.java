@@ -1,8 +1,9 @@
+import org.junit.Test;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.TADs.MyQueueImp;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class MyQueueTest {
 

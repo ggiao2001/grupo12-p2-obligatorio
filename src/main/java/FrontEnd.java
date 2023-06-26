@@ -1,16 +1,15 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Piloto;
-import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyQueueException;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
-import uy.edu.um.prog2.adt.TADs.MyQueueImp;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class FrontEnd {
     private static SistemaTweets sistemaTweets;
@@ -22,7 +21,7 @@ public class FrontEnd {
     }
 
     public void Menu() throws EmptyTreeException, FullHeapException, OutOfBoundsException {
-        int option =0;
+        int option = 0;
 
         do {
             System.out.println("----------------------");
@@ -66,7 +65,7 @@ public class FrontEnd {
         System.out.println("Ingrese el mes (número): ");
         int month = scanner.nextInt();
 
-        MyQueue<Piloto> pilotosMencionados =  sistemaTweets.pilotosMasMencionadosMes(month, year);
+        MyQueue<Piloto> pilotosMencionados = sistemaTweets.pilotosMasMencionadosMes(month, year);
 
         // Display the results
         System.out.println("------ Pilotos más mencionados en el mes " + month + " y año " + year + "------");
@@ -75,26 +74,28 @@ public class FrontEnd {
         while (pilotosMencionados != null && pilotosMencionados.size() > 0) {
             Piloto piloto = null;
             try {
-               piloto = pilotosMencionados.dequeue();
+                piloto = pilotosMencionados.dequeue();
             } catch (EmptyQueueException e) {
                 System.out.println("Problema con Queue de Pilotos Vacia");
                 break;
             }
 
-            if(piloto.getMenciones()> 1){
+            if (piloto.getMenciones() > 1) {
                 flag = false;
-                System.out.println(posicion+" "+piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " veces");
-            }else if(piloto.getMenciones() == 1){
+                System.out.println(posicion + " " + piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " veces");
+            } else if (piloto.getMenciones() == 1) {
                 flag = false;
-                System.out.println(posicion+" "+piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " vez");
-            }else{
+                System.out.println(posicion + " " + piloto.getNombre() + ", mencionado: " + piloto.getMenciones() + " vez");
+            } else {
                 System.out.println("Ningun otro piloto fue mencionado en este mes");
                 break;
             }
 
             posicion++;
         }
-        if(flag){System.out.println("Ningun piloto mencionado este mes");}
+        if (flag) {
+            System.out.println("Ningun piloto mencionado este mes");
+        }
         System.out.println();
     }
 
@@ -127,13 +128,13 @@ public class FrontEnd {
         try {
             dia = LocalDate.parse(dateString);
             HashTag hashtagMasUsado = sistemaTweets.hashtagMasUsado(dia);
-            if(hashtagMasUsado != null){
+            if (hashtagMasUsado != null) {
                 System.out.println("Hashtag más usado para el día " + dia + " fue : " + hashtagMasUsado.getText());
-            }else{
+            } else {
                 System.out.println("No hubo hashtags usados ese dia, o el dia selecionado escapa el rango de la base de datos.");
             }
 
-        }catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             System.out.println("Error: Formato de fecha incorrecto. Asegúrese de ingresar en el formato YYYY-MM-DD.");
         }
         System.out.println();

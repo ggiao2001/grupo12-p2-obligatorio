@@ -5,9 +5,7 @@ import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
 
-import java.time.LocalDateTime;
-
-public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBinarySearchTree<K, T> {
+public class MyBinarySearchTreeImp<K extends Comparable<K>, T> implements MyBinarySearchTree<K, T> {
 
     private NodeBST<K, T> root;
 
@@ -41,10 +39,10 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
     @Override
     public void insert(K key, T data) {
 
-        NodeBST<K,T> nuevo = new NodeBST<>(key,data);
-        if(root != null){
-            insertRecursivo(this.root,nuevo);
-        }else{
+        NodeBST<K, T> nuevo = new NodeBST<>(key, data);
+        if (root != null) {
+            insertRecursivo(this.root, nuevo);
+        } else {
             this.root = nuevo;
         }
 
@@ -60,17 +58,17 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
 
                     NodeBST<K, T> eliminar = busquedaRecursiva(this.root, key);
                     NodeBST<K, T> padre = busquedaRecursivaPadre(this.root, key, null);
-                    if(eliminar != null){
+                    if (eliminar != null) {
                         if (eliminar.getLeftChild() == null && eliminar.getRightChild() == null) {
                             //Si el que voy a eliminar no tiene hijos, lo elimino nomas
-                            if (padre.getRightChild()!= null && padre.getRightChild().equals(eliminar)) {
+                            if (padre.getRightChild() != null && padre.getRightChild().equals(eliminar)) {
                                 padre.setRightChild(null);
                             } else {
                                 padre.setLeftChild(null);
                             }
                         } else if (eliminar.getLeftChild() == null && eliminar.getRightChild() != null) {
                             //Caso con solo hijo derecho
-                            if (padre.getRightChild()!= null && padre.getRightChild().equals(eliminar)) {
+                            if (padre.getRightChild() != null && padre.getRightChild().equals(eliminar)) {
                                 padre.setRightChild(eliminar.getRightChild());
                             } else {
                                 padre.setLeftChild(eliminar.getRightChild());
@@ -78,7 +76,7 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
 
                         } else if (eliminar.getLeftChild() != null && eliminar.getRightChild() == null) {
                             //Caso con solo hijo izquierdo
-                            if (padre.getRightChild()!= null && padre.getRightChild().equals(eliminar)) {
+                            if (padre.getRightChild() != null && padre.getRightChild().equals(eliminar)) {
                                 padre.setRightChild(eliminar.getRightChild());
                             } else {
                                 padre.setLeftChild(eliminar.getRightChild());
@@ -90,7 +88,7 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
                             queue = inOrder(eliminar, queue);
 
                             //Borro el que quiero eliminar, setteando el hijo de su padre a null.
-                            if (padre.getRightChild()!=null && padre.getRightChild().equals(eliminar)) {
+                            if (padre.getRightChild() != null && padre.getRightChild().equals(eliminar)) {
                                 padre.setRightChild(null);
                             } else {
                                 padre.setLeftChild(null);
@@ -100,13 +98,13 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
 
                             //Recorro la queue insertando
                             for (int i = 0; i < queue.size(); i++) {
-                                NodeBST<K,T> nuevo = new NodeBST<>();
+                                NodeBST<K, T> nuevo = new NodeBST<>();
                                 nuevo = queue.dequeue();
-                                insertRecursivo(padre,nuevo);
+                                insertRecursivo(padre, nuevo);
 
                             }
                         }
-                    }else{
+                    } else {
                         throw new EmptyTreeException();
                     }
 
@@ -114,7 +112,7 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
             } else {
                 throw new EmptyTreeException();
             }
-        }catch (EmptyQueueException e){
+        } catch (EmptyQueueException e) {
             System.out.println("Dequeue Problem: Queue vacia");
         }
     }
@@ -206,7 +204,7 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
         return newRoot;
     }
 
-    private NodeBST<K,T> busquedaRecursiva(NodeBST<K, T> actual, K key) {
+    private NodeBST<K, T> busquedaRecursiva(NodeBST<K, T> actual, K key) {
         if (actual == null) {
             return null;
         }
@@ -224,7 +222,7 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
         }
     }
 
-    private NodeBST<K,T> busquedaRecursivaPadre(NodeBST<K, T> actual, K key, NodeBST<K, T> parent) {
+    private NodeBST<K, T> busquedaRecursivaPadre(NodeBST<K, T> actual, K key, NodeBST<K, T> parent) {
         if (actual == null) {
             return null;
         }
@@ -237,41 +235,37 @@ public class MyBinarySearchTreeImp <K extends Comparable<K>, T> implements MyBin
 
         } else {
             // Encontre el nodo entonces devuelve el padre
-            if (parent != null) {
-                return parent;
-            } else {
-                // Si el padre es null entonces estoy en la root (Que deberia cortar antes igual)
-                //Devuelvo null
-                return null;
-            }
+            // Si el padre es null entonces estoy en la root (Que deberia cortar antes igual)
+            //Devuelvo null
+            return parent;
         }
     }
 
 
-    public MyQueue<NodeBST> inOrder(NodeBST<K,T> nodo, MyQueue<NodeBST> queue){
+    public MyQueue<NodeBST> inOrder(NodeBST<K, T> nodo, MyQueue<NodeBST> queue) {
 
         if (nodo != null) {
-            inOrder(nodo.getLeftChild(),queue);
+            inOrder(nodo.getLeftChild(), queue);
             queue.enqueue(nodo);
-            inOrder(nodo.getRightChild(),queue);
+            inOrder(nodo.getRightChild(), queue);
         }
         return queue;
     }
 
-    public MyQueue<NodeBST> preOrder(NodeBST<K, T> nodo, MyQueue<NodeBST> queue){
+    public MyQueue<NodeBST> preOrder(NodeBST<K, T> nodo, MyQueue<NodeBST> queue) {
 
         if (nodo != null) {
             queue.enqueue(nodo);
-            preOrder(nodo.getLeftChild(),queue);
-            preOrder(nodo.getRightChild(),queue);
+            preOrder(nodo.getLeftChild(), queue);
+            preOrder(nodo.getRightChild(), queue);
         }
         return queue;
     }
 
-    public MyQueue<NodeBST> postOrder(NodeBST<K,T> nodo, MyQueue<NodeBST> queue){
+    public MyQueue<NodeBST> postOrder(NodeBST<K, T> nodo, MyQueue<NodeBST> queue) {
         if (nodo != null) {
-            postOrder(nodo.getLeftChild(),queue);
-            postOrder(nodo.getRightChild(),queue);
+            postOrder(nodo.getLeftChild(), queue);
+            postOrder(nodo.getRightChild(), queue);
             queue.enqueue(nodo);
         }
         return queue;

@@ -1,6 +1,6 @@
+import org.junit.Test;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -84,7 +84,7 @@ public class MyListTest {
         list.add(20);
         list.add(30);
 
-        list.addIndex(1,11);
-        list.addIndex(2,12);
+        list.addIndex(1, 11);
+        list.addIndex(2, 12);
     }
 }

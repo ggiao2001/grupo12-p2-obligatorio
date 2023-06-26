@@ -1,12 +1,11 @@
-import java.time.LocalDate;
 import uy.edu.um.prog2.adt.Entities.HashTag;
 import uy.edu.um.prog2.adt.Entities.Piloto;
-import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyQueue;
-import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
+
+import java.time.LocalDate;
 
 public interface SistemaTweets {
 
@@ -18,7 +17,7 @@ public interface SistemaTweets {
 
     /**
      * @Return: Queue de 15 Usuarios con más tweets con:
-    **/
+     **/
     void usuariosMasTweets() throws OutOfBoundsException;
 
     /**
@@ -46,8 +45,6 @@ public interface SistemaTweets {
      * @Parameter frase utilizada
      **/
     int cantidadTweetsPalabra(String frase);
-
-
 
 
 }

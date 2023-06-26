@@ -1,6 +1,6 @@
-import uy.edu.um.prog2.adt.TADs.QuickSort;
 import org.junit.Assert;
-        import org.junit.Test;
+import org.junit.Test;
+import uy.edu.um.prog2.adt.TADs.QuickSort;
 
 public class MyQuickSortTest {
 

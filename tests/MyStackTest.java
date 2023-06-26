@@ -1,9 +1,9 @@
+import org.junit.Test;
 import uy.edu.um.prog2.adt.Exceptions.EmptyStackException;
 import uy.edu.um.prog2.adt.Interfaces.MyStack;
 import uy.edu.um.prog2.adt.TADs.MyStackImp;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MyStackTest {
 

@@ -3,10 +3,10 @@ package uy.edu.um.prog2.adt.TADs;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyList;
 
-public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
+public class MyHashLinkedListImp<K, V> implements MyList<NodeHash<K, V>> {
 
-    private NodeHash<K,V> first;
-    private NodeHash<K,V> last;
+    private NodeHash<K, V> first;
+    private NodeHash<K, V> last;
 
     public MyHashLinkedListImp() {
         this.first = null;
@@ -30,8 +30,8 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
     }
 
     @Override
-    public void add(NodeHash<K,V> node) {
-        if (node!=null) {
+    public void add(NodeHash<K, V> node) {
+        if (node != null) {
             if (first == null && last == null) {
                 first = node;
                 last = node;
@@ -49,7 +49,7 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
 
     @Override
     public NodeHash<K, V> get(int position) {
-        NodeHash<K,V> aux = first;
+        NodeHash<K, V> aux = first;
         int search = 0;
         while (search < position && aux.getNext() != null) {
             search++;
@@ -62,8 +62,8 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
         //throw new OutOfBoundsException();
     }
 
-    public NodeHash<K,V> getKey(K key){
-        NodeHash<K,V> aux = first;
+    public NodeHash<K, V> getKey(K key) {
+        NodeHash<K, V> aux = first;
         if (aux != null) {
             while (aux.getKey() != key && aux.getNext() != null) {
                 aux = aux.getNext();
@@ -78,13 +78,11 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
     @Override
     public boolean contains(NodeHash<K, V> node) {
         if (node != null && first != null) {
-            NodeHash<K,V> aux = first;
-            while (node.getKey() != aux.getKey() && aux.getNext() != null){
+            NodeHash<K, V> aux = first;
+            while (node.getKey() != aux.getKey() && aux.getNext() != null) {
                 aux = aux.getNext();
             }
-            if (aux.getKey() == node.getKey()) {
-                return true;
-            }
+            return aux.getKey() == node.getKey();
         }
         return false;
     }
@@ -92,8 +90,8 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
     @Override
     public void remove(NodeHash<K, V> node) throws OutOfBoundsException {
         if (node != null && first != null) {
-            NodeHash<K,V> aux = first;
-            NodeHash<K,V> auxPrev = null;
+            NodeHash<K, V> aux = first;
+            NodeHash<K, V> auxPrev = null;
             while (node.getKey() != aux.getKey() && aux.getNext() != null) {
                 auxPrev = aux;
                 aux = aux.getNext();
@@ -129,12 +127,12 @@ public class MyHashLinkedListImp<K,V> implements MyList<NodeHash<K,V>> {
             return 0;
         } else {
             int size = 1;
-            NodeHash<K,V> aux = first;
+            NodeHash<K, V> aux = first;
             while (aux.getNext() != null) {
                 size++;
                 aux = aux.getNext();
             }
-        return size;
+            return size;
         }
     }
 }

@@ -10,7 +10,7 @@ public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
     private static final int CAPACIDAD_INICIAL = 20; //size máximo inicial
     private T[] array;
     private int size; //size actual
-    private boolean max; //True is es maximo, False si Minimo
+    private final boolean max; //True is es maximo, False si Minimo
 
     //CONSTRUCTOR
     public MyHeapImp(boolean max) {
@@ -180,7 +180,6 @@ public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
     /**
      * Este metodo muestra el arbol en salida estandar
      * llama de manera recursiva a mostrarArbolRecusrivo()
-     *
      */
     @Override
     public void mostrarArbol() {
@@ -190,10 +189,9 @@ public class MyHeapImp<T extends Comparable<T>> implements MyHeap<T> {
     /**
      * Este metodo muestra el arbol en salida estandar de manera recursiva
      *
-     * @param indice indice desede donde se comienza a imprimir
+     * @param indice  indice desede donde se comienza a imprimir
      * @param prefijo el prefijo que se usa en cada espacio y es pasado nuevamente a la funcion.
      *                en la primer instancia tiene que ser un espacio vacio.
-     *
      */
     private void mostrarArbolRecursivo(int indice, String prefijo) {
         if (indice < array.length && array[indice] != null) {

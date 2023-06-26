@@ -1,7 +1,5 @@
 package uy.edu.um.prog2.ad.tads.linked_list;
 
-import java.util.Comparator;
-
 public interface ListaConGenerics<T> {
     void add(T value);
 

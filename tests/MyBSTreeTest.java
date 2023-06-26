@@ -1,8 +1,8 @@
-import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
+import org.junit.Test;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Interfaces.MyBinarySearchTree;
+import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
 import uy.edu.um.prog2.adt.TADs.NodeBST;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +24,7 @@ public class MyBSTreeTest {
     }
 
     @Test
-    public void insert(){
+    public void insert() {
         // Create an empty binary search tree
         MyBinarySearchTree<Integer, String> bst = new MyBinarySearchTreeImp<>();
 

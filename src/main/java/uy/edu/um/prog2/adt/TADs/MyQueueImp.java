@@ -35,12 +35,12 @@ public class MyQueueImp<T> implements MyQueue<T> {
     @Override
     public void enqueue(T value) {
         Node<T> agregar = new Node<T>(value);
-        if(this.first == null){
+        if (this.first == null) {
             this.first = agregar;
             this.last = agregar;
-        }else{
+        } else {
             Node<T> aux = this.first;
-            while(aux.getNext()!= null){
+            while (aux.getNext() != null) {
                 aux = aux.getNext();
             }
             aux.setNext(agregar);
@@ -50,16 +50,16 @@ public class MyQueueImp<T> implements MyQueue<T> {
 
     @Override
     public T dequeue() throws EmptyQueueException {
-        if(this.first == null){
+        if (this.first == null) {
             throw new EmptyQueueException();
-        }else{
+        } else {
             Node<T> to_return = null;
-            if(this.first.getNext() != null){
+            if (this.first.getNext() != null) {
                 to_return = this.first;
                 this.first = this.first.getNext();
-            }else{
+            } else {
                 to_return = this.first;
-                this.first=null;
+                this.first = null;
             }
             return to_return.getValue();
         }
@@ -87,11 +87,11 @@ public class MyQueueImp<T> implements MyQueue<T> {
     @Override
     public int size() {
         int count = 0;
-        if(this.first != null){
-            count+=1;
+        if (this.first != null) {
+            count += 1;
             Node<T> aux = this.first;
-            while(aux.getNext()!= null){
-                count+=1;
+            while (aux.getNext() != null) {
+                count += 1;
                 aux = aux.getNext();
             }
         }

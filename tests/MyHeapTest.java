@@ -1,8 +1,8 @@
-import uy.edu.um.prog2.adt.TADs.MyHeapImp;
-import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
-import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import org.junit.Assert;
 import org.junit.Test;
+import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
+import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
+import uy.edu.um.prog2.adt.TADs.MyHeapImp;
 
 import static org.junit.Assert.fail;
 
@@ -15,7 +15,7 @@ public class MyHeapTest {
             heap.agregar(3);
             heap.agregar(8);
             heap.agregar(1);
-        }catch(FullHeapException e){
+        } catch (FullHeapException e) {
             System.out.println("Problema con Heap Full");
             fail();
         }
@@ -25,7 +25,7 @@ public class MyHeapTest {
         Comparable[] actual = heap.getArray();
 
         for (int i = 0; i < expected.length; i++) {
-            Assert.assertEquals(expected[i],actual[i]);
+            Assert.assertEquals(expected[i], actual[i]);
         }
 
     }
@@ -48,7 +48,7 @@ public class MyHeapTest {
         Comparable[] actual = heap.getArray();
 
         for (int i = 0; i < expected.length; i++) {
-            Assert.assertEquals(expected[i],actual[i]);
+            Assert.assertEquals(expected[i], actual[i]);
         }
     }
 
@@ -56,18 +56,18 @@ public class MyHeapTest {
     public void testObtenerYEliminar() {
         MyHeapImp<Integer> heap = new MyHeapImp<>(true);
         try {
-        heap.agregar(5);
-        heap.agregar(3);
-        heap.agregar(8);
-        heap.agregar(1);
+            heap.agregar(5);
+            heap.agregar(3);
+            heap.agregar(8);
+            heap.agregar(1);
 
-        Assert.assertEquals(8, heap.obtenerYEliminar().intValue());
-        Assert.assertEquals(3, heap.obtenerSize());
+            Assert.assertEquals(8, heap.obtenerYEliminar().intValue());
+            Assert.assertEquals(3, heap.obtenerSize());
 
-        }catch(FullHeapException e){
+        } catch (FullHeapException e) {
             System.out.println("Problema con Heap Full");
             fail();
-        }catch(EmptyTreeException e){
+        } catch (EmptyTreeException e) {
             System.out.println("Problema con Arbol Vacio");
             fail();
         }
@@ -102,7 +102,7 @@ public class MyHeapTest {
             heap.agregar("banana");
             heap.agregar("orange");
 
-        }catch(FullHeapException e){
+        } catch (FullHeapException e) {
             System.out.println("Problema con Heap Full");
             fail();
         }
@@ -113,12 +113,12 @@ public class MyHeapTest {
     public void testMostrarArbol() {
         MyHeapImp<Integer> heap = new MyHeapImp<>(true);
         try {
-        heap.agregar(5);
-        heap.agregar(3);
-        heap.agregar(8);
-        heap.agregar(1);
+            heap.agregar(5);
+            heap.agregar(3);
+            heap.agregar(8);
+            heap.agregar(1);
 
-        }catch(FullHeapException e) {
+        } catch (FullHeapException e) {
             System.out.println("Problema con Heap Full");
             fail();
         }

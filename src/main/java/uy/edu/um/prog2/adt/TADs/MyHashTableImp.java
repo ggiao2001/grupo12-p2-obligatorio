@@ -4,10 +4,23 @@ import uy.edu.um.prog2.adt.Exceptions.ElementNotFoundException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
 import uy.edu.um.prog2.adt.Interfaces.MyHashTable;
 
-public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
+public class MyHashTableImp<K, V> implements MyHashTable<K, V> {
 
-    private int size;
-    private MyHashLinkedListImp<K,V>[] table;
+    private final int size;
+    private final MyHashLinkedListImp<K, V>[] table;
+
+    //array con linkedList
+    public MyHashTableImp(int size) {
+        this.size = size;
+        table = new MyHashLinkedListImp[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = new MyHashLinkedListImp<>();
+        }
+    }
+
+    public MyHashTableImp() {
+        this(16);
+    }
 
     //definicion del hash
     private int hash(K key) {
@@ -15,24 +28,11 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
         return Math.abs(hashCode) % size;
     }
 
-    //array con linkedList
-    public MyHashTableImp(int size){
-        this.size = size;
-        table = new MyHashLinkedListImp[size];
-        for (int i=0; i<size; i++){
-            table[i] = new MyHashLinkedListImp<>();
-        }
-    }
-
-     public MyHashTableImp(){
-        this(16);
-    }
-
     //metodos
     @Override
     public void put(K key, V value) {
         int index = hash(key);
-        MyHashLinkedListImp<K,V> bucket = table[index];
+        MyHashLinkedListImp<K, V> bucket = table[index];
         if (bucket.getKey(key) != null) {
             bucket.getKey(key).setValue(value);
             //si ya existe modifica el valor
@@ -44,17 +44,14 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
     @Override
     public boolean contains(K key) {
         int index = hash(key);
-        MyHashLinkedListImp<K,V> bucket = table[index];
-        if (bucket.getKey(key) != null) {
-            return true;
-        }
-        return false;
+        MyHashLinkedListImp<K, V> bucket = table[index];
+        return bucket.getKey(key) != null;
     }
 
     @Override
     public void remove(K key) throws ElementNotFoundException, OutOfBoundsException {
         int index = hash(key);
-        MyHashLinkedListImp<K,V> bucket = table[index];
+        MyHashLinkedListImp<K, V> bucket = table[index];
         if (bucket.getKey(key) != null) {
             bucket.remove(bucket.getKey(key));
             return;
@@ -63,9 +60,9 @@ public class MyHashTableImp<K,V> implements MyHashTable<K,V> {
     }
 
     @Override
-    public V get(K key){
+    public V get(K key) {
         int index = hash(key);
-        MyHashLinkedListImp<K,V> bucket = table[index];
+        MyHashLinkedListImp<K, V> bucket = table[index];
         if (bucket.getKey(key) != null) {
             return bucket.getKey(key).getValue();
         }

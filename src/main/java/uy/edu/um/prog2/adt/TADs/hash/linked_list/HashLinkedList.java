@@ -2,8 +2,6 @@ package uy.edu.um.prog2.adt.TADs.hash.linked_list;
 
 import uy.edu.um.prog2.adt.TADs.hash.HashNode;
 
-import java.util.Comparator;
-
 public class HashLinkedList<K, V> implements uy.edu.um.prog2.ad.tads.linked_list.ListaConGenerics<HashNode<K, V>> {
     private HashNode<K, V> first;
     private HashNode<K, V> last;

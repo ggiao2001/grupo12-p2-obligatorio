@@ -5,14 +5,13 @@ import uy.edu.um.prog2.adt.Entities.User;
 import uy.edu.um.prog2.adt.Exceptions.EmptyTreeException;
 import uy.edu.um.prog2.adt.Exceptions.FullHeapException;
 import uy.edu.um.prog2.adt.Exceptions.OutOfBoundsException;
-import uy.edu.um.prog2.adt.Interfaces.MyList;
-import uy.edu.um.prog2.adt.Interfaces.MyQueue;
-import uy.edu.um.prog2.adt.TADs.*;
+import uy.edu.um.prog2.adt.TADs.MyBinarySearchTreeImp;
+import uy.edu.um.prog2.adt.TADs.MyHeapImp;
+import uy.edu.um.prog2.adt.TADs.MyLinkedListImp;
+import uy.edu.um.prog2.adt.TADs.MyQueueImp;
 
 import java.time.LocalDate;
-
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +40,7 @@ public class SistemaTweetsImp implements SistemaTweets {
         }
         CSV.LocalDateTimeWrapper fecha1Wrapp = new CSV.LocalDateTimeWrapper(fecha1);
         CSV.LocalDateTimeWrapper fecha2Wrapp = new CSV.LocalDateTimeWrapper(fecha2);
-        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(fecha1Wrapp,fecha2Wrapp); //recorrer todos los tweets en arbol --> orden log n
+        MyLinkedListImp<Tweet> tweetsFecha = tweetsTree.getRange(fecha1Wrapp, fecha2Wrapp); //recorrer todos los tweets en arbol --> orden log n
         for (int j = 0; j < pilotos.size(); j++) { //cantidad de pilotos fija --> orden 1
             String nombreP = pilotos.get(j);
             Piloto p = new Piloto(nombreP);
@@ -136,7 +135,7 @@ public class SistemaTweetsImp implements SistemaTweets {
             Tweet t = tweetsFecha.get(i);
             for (int j = 0; j < t.getHashTags().size(); j++) {
                 HashTag h = t.getHashTags().get(j);
-                if (!h.getText().toLowerCase().equals("'f1'") && !h.getText().toLowerCase().equals("f1")) {
+                if (!h.getText().equalsIgnoreCase("'f1'") && !h.getText().equalsIgnoreCase("f1")) {
                     HashTag existingTag = getHashTag(hashtagCounts, h);
                     if (existingTag != null) {
                         existingTag.setUsosDia(existingTag.getUsosDia() + 1);
@@ -173,8 +172,6 @@ public class SistemaTweetsImp implements SistemaTweets {
     }
 
 
-
-
     //Top 7 cuentas con más favoritos. Para este listado se deberá retornar el nombre del
     //usuario, junto con la cantidad de favoritos.
     @Override
@@ -200,7 +197,6 @@ public class SistemaTweetsImp implements SistemaTweets {
         }
         return mentionCount;
     }
-
 
 
 }
