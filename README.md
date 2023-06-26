@@ -65,35 +65,35 @@ start() y end(), para obtener la diferencia en tiempos y memoria entre el princi
 
 Con los datos del archivo f1_dataset_test, los resultados fueron los siguientes:
 
-   1. Test de Velocidad y Memoria - Metodo 1
-      Execution time: 6991 milliseconds
-      Memory used: 48234496 bytes
+   #### 1. Test de Velocidad y Memoria - Metodo 1
+      Execution time: 16314 milliseconds
+      Memory used: 676200 bytes
 
-   2. Test de Velocidad y Memoria - Metodo 2
-      Execution time: 9033 milliseconds
+   #### 2. Test de Velocidad y Memoria - Metodo 2
+      Execution time: 5785 milliseconds
       Memory used: 2097152 bytes
 
-   3. Test de Velocidad y Memoria - Metodo 3
+   #### 3. Test de Velocidad y Memoria - Metodo 3
       Execution time: 79 milliseconds
       Memory used: 0 bytes
 
-   4. Test de Velocidad y Memoria - Metodo 4
-      Execution time: 312 milliseconds
+   #### 4. Test de Velocidad y Memoria - Metodo 4
+      Execution time: 949 milliseconds
       Memory used: 0 bytes
 
-   5. Test de Velocidad y Memoria - Metodo 5
-      Execution time: 29 milliseconds
+   #### 5. Test de Velocidad y Memoria - Metodo 5
+      Execution time: 41 milliseconds
       Memory used: 0 bytes
 
-   6. Test de Velocidad y Memoria - Metodo 6
-      Execution time: 13952 milliseconds
-      Memory used: -46263328 bytes
+   #### 6. Test de Velocidad y Memoria - Metodo 6
+      Execution time: 71003 milliseconds
+      Memory used: 10390144 bytes
 
-   0. Test de Velocidad y Memoria - Carga de Datos
+   #### 0. Test de Velocidad y Memoria - Carga de Datos
       Execution time: 29881 milliseconds
       Memory used: 31002144 bytes
 
 
-- UML
+## UML
 
 ![](uml.jpeg)
