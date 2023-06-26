@@ -103,7 +103,6 @@ public class SistemaTweetsImp implements SistemaTweets {
 
     //Cantidad de hashtags distintos para un día dado. El día será ingresado en el formato
     //YYYY-MM-DD.
-
     @Override
     public int cantidadHashtags(LocalDate dia) {
         MyLinkedListImp<HashTag> hashTagsDia = new MyLinkedListImp<>();

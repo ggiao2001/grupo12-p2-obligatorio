@@ -43,9 +43,10 @@ public class SistemaTweetsImpTest {
         long executionTime = endTime - startTime;
         System.out.println("Execution time: " + executionTime + " milliseconds");
         MemoryUsage memoryAfter = memoryBean.getHeapMemoryUsage();
-        long memoryUsed = memoryAfter.getUsed() - memoryBefore.getUsed();
+        long memoryUsed = Math.abs(memoryAfter.getUsed() - memoryBefore.getUsed());
         System.out.println("Memory used: " + memoryUsed + " bytes");
-        System.out.println();
+        System.out.println("");
+
     }
 
     /// VELOCIDAD Y RAM
@@ -60,7 +61,7 @@ public class SistemaTweetsImpTest {
     public void testVelocidadMetodo1() throws EmptyTreeException, FullHeapException {
         System.out.println("Test de Velocidad y Memoria - Metodo 1");
 
-        //MyQueue<Piloto> pilotosMasMencionados = sistemaTweets.pilotosMasMencionadosMes(12, 2021);
+        MyQueue<Piloto> pilotosMasMencionados = sistemaTweets.pilotosMasMencionadosMes(12, 2021);
 
     }
 
@@ -107,6 +108,5 @@ public class SistemaTweetsImpTest {
         System.out.println("Test de Velocidad y Memoria - Metodo 6");
         String f1 = "f1";
         int cantidadTweetsPalabra = sistemaTweets.cantidadTweetsPalabra(f1);
-
     }
 }
